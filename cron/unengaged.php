@@ -1,5 +1,7 @@
 <?php
 
+$start = time();
+
 require_once '../inc/vars.php';
 require_once '../inc/cm/csrest_lists.php';
 require_once '../inc/cm/csrest_subscribers.php';
@@ -24,7 +26,9 @@ for($i = 1; $i <= $pages; ++$i) {
   }
 }
 
-echo "Done!";
+$end = time();
+
+echo "Done! Total Time: " . ($end - $start) . " seconds.\n";
 
 function getNewArray() {
   $auth = array('api_key' => CM_API_KEY);
