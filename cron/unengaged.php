@@ -19,7 +19,7 @@ for($i = 1; $i <= $pages; ++$i) {
     if (!in_array($sub->EmailAddress, $new)) {
       $unengaged = isUnengaged($sub->EmailAddress);
       updateEngagement($sub->EmailAddress, $unengaged);
-      echo $sub->EmailAddress . " - " . $unengaged . "/n";
+      echo $sub->EmailAddress . " - " . $unengaged . "\n";
     }
   }
 }
