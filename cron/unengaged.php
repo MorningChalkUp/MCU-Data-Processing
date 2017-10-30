@@ -1,8 +1,8 @@
 <?php
 
-require_once '../process/vars.php';
-require_once '../process/cm/csrest_lists.php';
-require_once '../process/cm/csrest_subscribers.php';
+require_once '../inc/vars.php';
+require_once '../inc/cm/csrest_lists.php';
+require_once '../inc/cm/csrest_subscribers.php';
 
 $auth = array('api_key' => CM_API_KEY);
 $list = new CS_REST_Lists(CM_MCU_LIST_ID, $auth);
