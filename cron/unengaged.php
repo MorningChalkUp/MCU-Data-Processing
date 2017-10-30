@@ -19,11 +19,12 @@ for($i = 1; $i <= $pages; ++$i) {
     if (!in_array($sub->EmailAddress, $new)) {
       $unengaged = isUnengaged($sub->EmailAddress);
       updateEngagement($sub->EmailAddress, $unengaged);
+      echo $sub->EmailAddress . " - " . $unengaged . "/n";
     }
   }
 }
 
-echo "<h1>Done!</h1>";
+echo "Done!";
 
 function getNewArray() {
   $auth = array('api_key' => CM_API_KEY);
