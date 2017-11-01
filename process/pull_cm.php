@@ -32,6 +32,14 @@ for($i = 1; $i <= $pages; ++$i) {
 
 echo "Done!";
 
+function getListSize() {
+  $auth = array('api_key' => CM_API_KEY);
+  $wrap = new CS_REST_Lists(CM_MCU_LIST_ID, $auth);
+  $result = $wrap->get_stats();
+
+  return $result->response->TotalActiveSubscribers;
+}
+
 function addToDB($email, $subs, $con) {
 
   $result = $subs->get($email);
