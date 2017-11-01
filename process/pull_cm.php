@@ -143,17 +143,19 @@ function getLocation($zip) {
   $result = file_get_contents($call);
   $data = json_decode($result, true);
 
-  foreach ($data['results'][0]['address_components'] as $key) {
-    switch ($key['types'][0]) {
-      case 'locality':
-        $loc['city'] = $key['long_name'];
-        break;
-      case 'administrative_area_level_1':
-        $loc['state'] = $key['long_name'];
-        break;
-      case 'country':
-        $loc['country'] = $key['long_name'];
-        break;
+  if (isset($data['results'][0])) {
+    foreach ($data['results'][0]['address_components'] as $key) {
+      switch ($key['types'][0]) {
+        case 'locality':
+          $loc['city'] = $key['long_name'];
+          break;
+        case 'administrative_area_level_1':
+          $loc['state'] = $key['long_name'];
+          break;
+        case 'country':
+          $loc['country'] = $key['long_name'];
+          break;
+      }
     }
   }
 
