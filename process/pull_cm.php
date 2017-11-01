@@ -18,20 +18,15 @@ $auth = array('api_key' => CM_API_KEY);
 $list = new CS_REST_Lists(CM_MCU_LIST_ID, $auth);
 $subs = new CS_REST_Subscribers(CM_MCU_LIST_ID, $auth);
 
-/*$pageSize = 100;
-$pages = ceil(getListSize() / $pageSize);*/
-
-$pageSize = 10;
-$pages = 1;
+$pageSize = 50;
+$pages = ceil(getListSize() / $pageSize);
 
 for($i = 1; $i <= $pages; ++$i) {
   $result = $list->get_active_subscribers('', $i, $pageSize, 'email', 'asc');
   $active = json_decode(json_encode($result, true));
   foreach ($active->response->Results as $sub) {
     addToDB($sub->EmailAddress, $subs, $con);
-    echo "<pre>";
-    echo $sub->EmailAddress;
-    echo "<pre>";
+    echo $sub->EmailAddress . "\n";
   }
 }
 
@@ -152,6 +147,12 @@ function getLocation($zip) {
         break;
       case 'country':
         $loc['country'] = $key['long_name'];
+        break;
+    }
+  }
+
+  return $loc;
+}= $key['long_name'];
         break;
     }
   }
