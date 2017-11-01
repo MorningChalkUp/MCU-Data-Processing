@@ -1,3 +1,6 @@
 [submodule "inc/cm"]
 	path = inc/cm
 	url = https://github.com/campaignmonitor/createsend-php.git
+[submodule "inc/db"]
+	path = inc/db
+	url = https://github.com/a1phanumeric/PHP-MySQL-Class.git
