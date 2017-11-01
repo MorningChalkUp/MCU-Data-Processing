@@ -19,7 +19,7 @@ $list = new CS_REST_Lists(CM_MCU_LIST_ID, $auth);
 $subs = new CS_REST_Subscribers(CM_MCU_LIST_ID, $auth);
 
 $pageSize = 50;
-$pages = ceil(getListSize() / $pageSize);
+$pages = ceil(getListSize($list) / $pageSize);
 
 for($i = 1; $i <= $pages; ++$i) {
   $result = $list->get_active_subscribers('', $i, $pageSize, 'email', 'asc');
@@ -32,9 +32,7 @@ for($i = 1; $i <= $pages; ++$i) {
 
 echo "Done!";
 
-function getListSize() {
-  $auth = array('api_key' => CM_API_KEY);
-  $wrap = new CS_REST_Lists(CM_MCU_LIST_ID, $auth);
+function getListSize($wrap) {
   $result = $wrap->get_stats();
 
   return $result->response->TotalActiveSubscribers;
