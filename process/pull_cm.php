@@ -152,10 +152,4 @@ function getLocation($zip) {
   }
 
   return $loc;
-}= $key['long_name'];
-        break;
-    }
-  }
-
-  return $loc;
 }
