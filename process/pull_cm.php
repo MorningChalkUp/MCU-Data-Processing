@@ -18,10 +18,10 @@ $auth = array('api_key' => CM_API_KEY);
 $list = new CS_REST_Lists(CM_MCU_LIST_ID, $auth);
 $subs = new CS_REST_Subscribers(CM_MCU_LIST_ID, $auth);
 
-$pageSize = 50;
+$pageSize = 25;
 $pages = ceil(getListSize($list) / $pageSize);
 
-$start = 17800/$pageSize;
+$start = 24275/$pageSize;
 
 for($i = $start; $i <= $pages; ++$i) {
   $result = $list->get_active_subscribers('', $i, $pageSize, 'email', 'asc');
@@ -129,9 +129,11 @@ function mapCMtoDB($data) {
 
   if (isset($dbData['zip'])) {
     $location = getLocation($dbData['zip']);
-    $dbData['city'] = isset($location['city']) ? $location['city'] : '';
-    $dbData['state'] = isset($location['state']) ? $location['state'] : '';
-    $dbData['country'] = isset($location['country']) ? $location['country'] : '';
+    if ($location) {
+      $dbData['city'] = isset($location['city']) ? $location['city'] : '';
+      $dbData['state'] = isset($location['state']) ? $location['state'] : '';
+      $dbData['country'] = isset($location['country']) ? $location['country'] : '';
+    }
   }
   return $dbData;
 }
@@ -159,7 +161,7 @@ function getLocation($zip) {
           break;
       }
     }
+    return $loc;
   }
-
-  return $loc;
+  return false;
 }
