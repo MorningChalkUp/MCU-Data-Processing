@@ -23,7 +23,7 @@ $pages = ceil(getListSize($list) / $pageSize);
 
 // $start = 24275/$pageSize;
 
-for($i = $start; $i <= $pages; ++$i) {
+for($i = 1; $i <= $pages; ++$i) {
   $result = $list->get_active_subscribers('', $i, $pageSize, 'email', 'asc');
   $active = json_decode(json_encode($result, true));
   foreach ($active->response->Results as $sub) {
