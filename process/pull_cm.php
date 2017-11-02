@@ -26,9 +26,11 @@ $pages = ceil(getListSize($list) / $pageSize);
 for($i = 1; $i <= $pages; ++$i) {
   $result = $list->get_active_subscribers('', $i, $pageSize, 'date', 'asc');
   $active = json_decode(json_encode($result, true));
-  foreach ($active->response->Results as $sub) {
-    addEmail($sub->EmailAddress, $con);
-    echo $sub->EmailAddress . "\n";
+  if (!inDB($sub->EmailAddress, $con)){
+    foreach ($active->response->Results as $sub) {
+      addEmail($sub->EmailAddress, $con);
+      echo $sub->EmailAddress . "\n";
+    }
   }
 }
 
