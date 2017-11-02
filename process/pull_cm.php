@@ -27,10 +27,10 @@ for($i = 1; $i <= $pages; ++$i) {
   $result = $list->get_active_subscribers('', $i, $pageSize, 'email', 'asc');
   $active = json_decode(json_encode($result, true));
   foreach ($active->response->Results as $sub) {
-    if (!inDB($sub->EmailAddress, $con)) {
+    // if (!inDB($sub->EmailAddress, $con)) {
       addToDB($sub->EmailAddress, $subs, $con);
       echo $sub->EmailAddress . "\n";
-    }
+    // }
   }
 }
 
