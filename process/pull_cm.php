@@ -24,15 +24,22 @@ $pages = ceil(getListSize($list) / $pageSize);
 // $start = 24275/$pageSize;
 
 for($i = 1; $i <= $pages; ++$i) {
-  $result = $list->get_active_subscribers('', $i, $pageSize, 'email', 'asc');
+  $result = $list->get_active_subscribers('', $i, $pageSize, 'date', 'asc');
   $active = json_decode(json_encode($result, true));
   foreach ($active->response->Results as $sub) {
-    // if (!inDB($sub->EmailAddress, $con)) {
-      addToDB($sub->EmailAddress, $subs, $con);
-      echo $sub->EmailAddress . "\n";
-    // }
+    addEmail($sub->EmailAddress, $con);
+    echo $sub->EmailAddress . "\n";
   }
 }
+
+/*for($i = 1; $i <= $pages; ++$i) {
+  $result = $list->get_active_subscribers('', $i, $pageSize, 'date', 'asc');
+  $active = json_decode(json_encode($result, true));
+  foreach ($active->response->Results as $sub) {
+    addToDB($sub->EmailAddress, $subs, $con);
+    echo $sub->EmailAddress . "\n";
+  }
+}*/
 
 echo "Done!";
 
@@ -40,6 +47,14 @@ function getListSize($wrap) {
   $result = $wrap->get_stats();
 
   return $result->response->TotalActiveSubscribers;
+}
+
+function addEmail($email, $con) {
+  $data = array('email' => $email);
+
+  $query = "INSERT INTO cu_people(email) VALUES(:email)";
+
+  $r = $con->execute($query, $data);
 }
 
 function addToDB($email, $subs, $con) {
