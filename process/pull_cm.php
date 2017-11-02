@@ -18,17 +18,19 @@ $auth = array('api_key' => CM_API_KEY);
 $list = new CS_REST_Lists(CM_MCU_LIST_ID, $auth);
 $subs = new CS_REST_Subscribers(CM_MCU_LIST_ID, $auth);
 
-$pageSize = 25;
+$pageSize = 100;
 $pages = ceil(getListSize($list) / $pageSize);
 
-$start = 24275/$pageSize;
+// $start = 24275/$pageSize;
 
 for($i = $start; $i <= $pages; ++$i) {
   $result = $list->get_active_subscribers('', $i, $pageSize, 'email', 'asc');
   $active = json_decode(json_encode($result, true));
   foreach ($active->response->Results as $sub) {
-    addToDB($sub->EmailAddress, $subs, $con);
-    echo $sub->EmailAddress . "\n";
+    if (!inDB($sub->EmailAddress, $con)) {
+      addToDB($sub->EmailAddress, $subs, $con);
+      echo $sub->EmailAddress . "\n";
+    }
   }
 }
 
@@ -162,6 +164,14 @@ function getLocation($zip) {
       }
     }
     return $loc;
+  }
+  return false;
+}
+
+function inDB($email, $con) {
+  $result = $con->fetch("SELECT email FROM cu_people WHERE email = ?", $email);
+  if ($result) {
+    return true;
   }
   return false;
 }
