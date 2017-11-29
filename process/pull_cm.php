@@ -18,12 +18,12 @@ $auth = array('api_key' => CM_API_KEY);
 $list = new CS_REST_Lists(CM_MCU_LIST_ID, $auth);
 $subs = new CS_REST_Subscribers(CM_MCU_LIST_ID, $auth);
 
-$pageSize = 100;
-$pages = ceil(getListSize($list) / $pageSize);
+// $pageSize = 100;
+// $pages = ceil(getListSize($list) / $pageSize);
 
 // $start = 24275/$pageSize;
 
-for($i = 1; $i <= $pages; ++$i) {
+/*for($i = 1; $i <= $pages; ++$i) {
   $result = $list->get_active_subscribers('', $i, $pageSize, 'date', 'asc');
   $active = json_decode(json_encode($result, true));
   if (!inDB($sub->EmailAddress, $con)){
@@ -32,16 +32,14 @@ for($i = 1; $i <= $pages; ++$i) {
       echo $sub->EmailAddress . "\n";
     }
   }
-}
-
-/*for($i = 1; $i <= $pages; ++$i) {
-  $result = $list->get_active_subscribers('', $i, $pageSize, 'date', 'asc');
-  $active = json_decode(json_encode($result, true));
-  foreach ($active->response->Results as $sub) {
-    addToDB($sub->EmailAddress, $subs, $con);
-    echo $sub->EmailAddress . "\n";
-  }
 }*/
+
+$data = getDB($con);
+
+foreach ($data as $sub) {
+  addToDB($sub['email'], $subs, $con);
+  echo $sub['email'] . "\n";
+}
 
 echo "Done!";
 
@@ -49,6 +47,10 @@ function getListSize($wrap) {
   $result = $wrap->get_stats();
 
   return $result->response->TotalActiveSubscribers;
+}
+
+function getDB($con) {
+  return $con->fetchAll("SELECT email FROM cu_people ORDER BY pid ASC");
 }
 
 function addEmail($email, $con) {
@@ -65,18 +67,22 @@ function addToDB($email, $subs, $con) {
 
   $data = mapCMtoDB($result->response);
   foreach ($data as $key => $value) {
-    $cols[] = $key;
-    $vals[] = ':' . $key;
+    if ($key != 'email') {
+      $cols[] = $key . " = ?";
+      $vals[] = $value;
+    }
   }
 
-  $query = "INSERT INTO cu_people(" . implode(', ', $cols) . ") VALUES(" . implode(', ', $vals) . ")";
+  $vals[] = $email;
 
-  $r = $con->execute($query, $data);
+  $query = "UPDATE cu_people SET " . implode(' ',$cols) . " WHERE email = ?";
+
+  $r = $con->execute($query, $vals);
 
 }
 
 function mapCMtoDB($data) {
-  $dbData['email'] = $data->EmailAddress;
+  // $dbData['email'] = $data->EmailAddress;
   $date = date_create_from_format('Y-m-d H:i:s', $data->Date);
   $dbData['date_added'] = date_format($date, 'Y-m-d H:i:s');
   if (isset($data->Name)) {
