@@ -2,18 +2,39 @@
 
 include('vars.php');
 
-$url = 'https://' . MC_DATA_CENTER . '.api.mailchimp.com/3.0/campaigns?count=6';
+$url = 'https://' . MC_DATA_CENTER . '.api.mailchimp.com/3.0/campaigns?count=100';
 
 $result = mc_curl($url);
-
+$domains = array();
 foreach ($result['campaigns'] as $campaign) {
-  $rep_url = 'https://' . MC_DATA_CENTER . '.api.mailchimp.com/3.0/reports/'.$campaign['id'].'/click-details?count=50';
+  $rep_url = 'https://' . MC_DATA_CENTER . '.api.mailchimp.com/3.0/reports/'.$campaign['id'].'/click-details?count=100';
   $links = mc_curl($rep_url);
+  
   foreach ($links['urls_clicked'] as $link) {
-    print $link['url'] . ' > ' . $link['total_clicks'] . '<br>';
+    $host = parse_url($link['url'], PHP_URL_HOST);
+    if (isset($domains[$host])) {
+      $domains[$host] += $link['total_clicks'];
+    } else {
+      $domains[$host] = $link['total_clicks'];
+    }
   }
 }
-
+?>
+ <?php foreach($domains as $domain => $count): ?>
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td><?php echo $domain; ?></td>
+            <td><?php echo $count; ?></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<?php endforeach; ?>
+<?php
 function mc_curl($url) {
   $ch = curl_init($url);
 
