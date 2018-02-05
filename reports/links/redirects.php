@@ -7,50 +7,11 @@
   require_once '../../inc/cm/csrest_campaigns.php';
   require_once '../../inc/cm/csrest_clients.php';
 
-  $auth = array('api_key' => CM_API_KEY);
-  $wrap = new CS_REST_Clients(
-      CM_CLIENT_ID, 
-      $auth);
-
-  $result = $wrap->get_campaigns();
-
-  $domains = array();
-
-  // Campagn Monitor
-  foreach ($result->response as $campaign) {
-    if (strtotime($campaign->SentDate) < strtotime('2018/01/01')) {
-
-      $send = new CS_REST_Campaigns($campaign->CampaignID, $auth);
-      
-      $page = 1;
-      $size = 1000;
-      $break = false;
-      $clicks = [];
-      do {
-        $click_json = $send->get_clicks('2000-01-01', $page, $size);
-        $clicks = array_merge($clicks, $click_json->response->Results);
-        if (count($click_json->response->Results) < $size) {
-          $break = true;
-        }
-        ++$page;
-      } while (!$break);
-
-      foreach($clicks as $click) {
-        $host = parse_url($click->URL, PHP_URL_HOST);
-        if (isset($domains[$host])) {
-          ++$domains[$host];
-        } else {
-          $domains[$host] = 1;
-        }
-      }
-    }
-  }
-
-
   // MailChimp
   $break = false;
   $count=100;
   $offset=0;
+  $new_urls = array();
   do {
     $url = 'https://' . MC_DATA_CENTER . '.api.mailchimp.com/3.0/campaigns?count='.$count.'&offset='.$offset;
 
@@ -72,14 +33,16 @@
       foreach ($links['urls_clicked'] as $link) {
         $host = parse_url($link['url'], PHP_URL_HOST);
         if (in_array($host,$mc_redirects)) {
-          $new_url = get_redirect($link['url']);
-          $host = parse_url($new_url, PHP_URL_HOST);
-        }
-        if (isset($domains[$host])) {
-          $domains[$host] += $link['total_clicks'];
-        } else {
-          $domains[$host] = $link['total_clicks'];
-        }
+          if (!isset($new_urls[$link['url']])) {
+            $new_urls[] = $link['url'];
+          }
+        } /*else {
+          if (isset($domains[$host])) {
+            $domains[$host] += $link['total_clicks'];
+          } else {
+            $domains[$host] = $link['total_clicks'];
+          }
+        }*/
       }
     }
   } while (!$break);
@@ -136,14 +99,16 @@
     </div>
 
     <div class="container">
-        <?php foreach($domains as $domain => $count): ?>
+        <?php //foreach($domains as $domain => $count): ?>
+        <?php foreach($new_urls as $url): ?>
           <div class="row">
             <div class="col">
               <table class="table">
                 <tbody>
                   <tr>
-                    <td><?php echo $domain; ?></td>
-                    <td><?php echo $count; ?></td>
+                    <!-- <td><?php echo $domain; ?></td> -->
+                    <!-- <td><?php echo $count; ?></td> -->
+                    <td><?php echo $url ?></td>
                   </tr>
                 </tbody>
               </table>
