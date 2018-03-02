@@ -12,7 +12,7 @@ $result = mc_curl($url);
 echo 'Day Of Week,Year,Month,Day,Date,Title,Sent,Opened,Unique Opened,Clicks,Sub Clicks';
 echo '<br>';
 
-foreach ($result['campaigns'] as $email) {
+/*foreach ($result['campaigns'] as $email) {
   $date = DateTime::createFromFormat($format, $email['send_time']);
   echo $date->format('w');
   echo ',';
@@ -126,7 +126,7 @@ foreach ($result['campaigns'] as $email) {
   echo ',';
   echo $email['report_summary']['subscriber_clicks'];
   echo '<br>';
-}
+}*/
 
 $url = 'https://' . MC_DATA_CENTER . '.api.mailchimp.com/3.0/campaigns?since_send_time=2017-10-01T00:00:00-08:00&sort_field=send_time&sort_dir=ASC&count=200';
 
