@@ -10,7 +10,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <h2><a href="{{$data['preview_url']}}" target="_blank">{{$data['name']}}</a><br><small>Campaign ID: {{$data['id']}}</small></h2>
+        <h2><a href="{{$data['web_view']}}" target="_blank">{{$data['title']}}</a><br><small>Campaign ID: {{$data['id']}}</small></h2>
       </div>
     </div>
     <div class="row">
@@ -28,12 +28,12 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{$data['recipiants']}}</td>
+              <td>{{$data['recipients']}}</td>
               <td>{{$data['opens']}}</td>
               <td>{{$data['open_rate']}}%</td>
-              <td>{{$data['clicks']}}</td>
+              <td>{{$data['clicks_unique']}}</td>
               <td>{{$data['click_rate']}}%</td>
-              <td>{{$data['total_clicks']}}</td>
+              <td>{{$data['clicks_total']}}</td>
             </tr>
           </tbody>
         </table>

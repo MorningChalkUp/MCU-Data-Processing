@@ -14,27 +14,24 @@ class EmailReportController extends Controller
     }
 
     public function emailStats($id) {
-      $campaigns = CampaignMonitor::clients(\Config::get('campaignmonitor.client_id'))->get_campaigns();
+      $url = 'http://data.morningchalkup.com/api/email/'.$id;
 
-      foreach ($campaigns->response as $item) {
-        if ($item->CampaignID == $id) {
-          $name = $item->Name;
-        }
-      }
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_URL, $url);
+      $result = json_decode(curl_exec($ch), true);
+      curl_close($ch);
 
-      $campaign = CampaignMonitor::campaigns($id)->get_summary();
-
-      $clicks = CampaignMonitor::campaigns($id)->get_clicks();
-
-      $data['name'] = $name;
+      $data = $result['response'];
+      
       $data['id'] = $id;
-      $data['preview_url'] = $campaign->response->WebVersionURL;
-      $data['recipiants'] = number_format($campaign->response->Recipients);
-      $data['opens'] = number_format($campaign->response->UniqueOpened);
-      $data['open_rate'] = number_format($campaign->response->UniqueOpened/$campaign->response->Recipients*100, 2);
-      $data['clicks'] = number_format($campaign->response->Clicks);
-      $data['click_rate'] = number_format($campaign->response->Clicks/$campaign->response->UniqueOpened*100, 2);
-      $data['total_clicks'] = number_format($clicks->response->TotalNumberOfRecords);
+      $data['open_rate'] = number_format($data['opens']/$data['recipients']*100, 2);
+      $data['click_rate'] = number_format($data['clicks_unique']/$data['opens']*100, 2);
+      $data['recipients'] = number_format($data['recipients']);
+      $data['opens'] = number_format($data['opens']);
+      $data['clicks_unique'] = number_format($data['clicks_unique']);
+      $data['clicks_total'] = number_format($data['clicks_total']);
 
       return view('pages.email')->with('data', $data);
     }
