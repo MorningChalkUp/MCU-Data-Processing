@@ -17,4 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('email/{id}', 'EmailDataController@getEmailData');
+Route::get('v1/email/simple/{id}', 'EmailDataController@getSimpleEmailData');
+
+Route::get('v1/email/{id}', 'EmailDataController@getEmailData');
