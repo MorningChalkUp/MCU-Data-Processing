@@ -28,9 +28,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('ads:update --time=new')->everyThirtyMinutes();
 
-        $schedule->command('ads:update')->twiceDaily(1, 13)->withoutOverlapping();
+        $schedule->command('ads:update')->twiceDaily(1, 13);
 
-        $schedule->command('ads:update --time=old')->sundays()->withoutOverlapping();
+        $schedule->command('ads:update --time=old')->sundays();
     }
 
     /**
