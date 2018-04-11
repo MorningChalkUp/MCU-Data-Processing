@@ -13,7 +13,7 @@ class UpdateRecentAds extends Command
      *
      * @var string
      */
-    protected $signature = 'ads:update {--old}';
+    protected $signature = 'ads:update {--time=}';
 
     /**
      * The console command description.
@@ -44,11 +44,21 @@ class UpdateRecentAds extends Command
 
         $this->info('Start Time: ' . $start);
 
-        if($this->option('old')) {
+        if($this->option('time') == 'new') {
             $posts = DB::connection('analytics')
                 ->table('wp_posts')
                 ->select('ID')
-                ->where('post_date', '<=', date('Y-m-d',strtotime('-7 days')))
+                ->where('post_date', '>=', date('Y-m-d',strtotime('-2 days')))
+                ->where('post_status', 'publish')
+                ->where('post_type', 'report')
+                ->get();
+
+            $output = "Old Ads Updated";
+        } elseif($this->option('time') == 'old') {
+            $posts = DB::connection('analytics')
+                ->table('wp_posts')
+                ->select('ID')
+                ->where('post_date', '<=', date('Y-m-d',strtotime('-10 days')))
                 ->where('post_date', '>=', date('Y-m-d',strtotime('-30 days')))
                 ->where('post_status', 'publish')
                 ->where('post_type', 'report')
@@ -59,7 +69,8 @@ class UpdateRecentAds extends Command
             $posts = DB::connection('analytics')
                 ->table('wp_posts')
                 ->select('ID')
-                ->where('post_date', '>=', date('Y-m-d',strtotime('-7 days')))
+                ->where('post_date', '<=', date('Y-m-d',strtotime('-2 days')))
+                ->where('post_date', '>=', date('Y-m-d',strtotime('-10 days')))
                 ->where('post_status', 'publish')
                 ->where('post_type', 'report')
                 ->get();
