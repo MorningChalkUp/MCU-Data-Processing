@@ -112,7 +112,7 @@ class Kernel extends ConsoleKernel
             }
 
         ))
-        ->cron('0 * * * * *');
+        ->hourly();
 
 
         $schedule->call(function(
@@ -198,7 +198,8 @@ class Kernel extends ConsoleKernel
             }
 
         ))
-        ->cron('0 0 0 * * *');
+        ->weekly()
+        ->withoutOverlapping();
 
     }
 
