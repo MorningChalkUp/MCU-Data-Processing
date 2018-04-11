@@ -53,7 +53,7 @@ class UpdateRecentAds extends Command
                 ->where('post_type', 'report')
                 ->get();
 
-            $output = "Old Ads Updated";
+            $output = "Recent Ads Updated";
         } elseif($this->option('time') == 'old') {
             $posts = DB::connection('analytics')
                 ->table('wp_posts')
@@ -75,7 +75,7 @@ class UpdateRecentAds extends Command
                 ->where('post_type', 'report')
                 ->get();
 
-            $output = "Recent Ads Updated";
+            $output = "Semi-Recent Ads Updated";
         }
 
         foreach ($posts as $post) {
