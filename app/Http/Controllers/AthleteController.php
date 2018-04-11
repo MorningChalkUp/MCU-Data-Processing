@@ -10,18 +10,6 @@ class AthleteController extends Controller
 {
   public function getData() {
 
-    /*$options = array(
-            'division' => 1,
-            'region' => 0,
-            'scaled' => 0,
-            'sort' => 0,
-            'occupation' => 0,
-            'page' => 1,
-          );
-    $client = new Client();
-    $resp = $client->request('GET', 'https://games.crossfit.com/competitions/api/v1/competitions/open/2018/leaderboards?division=1&region=0&scaled=0&sort=0&occupation=0&page=1');
-
-    dd($resp);*/
 
     $events = array(
       '18.1' => 0,
@@ -34,24 +22,7 @@ class AthleteController extends Controller
     );
 
     $groups = array(
-      'M' => 1,
-      // 'W' => 2,
-      /*'M1415' => 14,
-      'W1415' => 15,
-      'M1617' => 16,
-      'W1617' => 17,
-      'M3539' => 18,
-      'W3539' => 19,
-      'M4044' => 12,
-      'W4044' => 13,
-      'M4549' => 3,
-      'W4549' => 4,
-      'M5054' => 5,
-      'W5054' =>6,
-      'M5559' => 7,
-      'W5559' => 8,
-      'M60' => 9,
-      'W60' => 10,*/
+      'M' => 1
     );
 
     $scales = array(
@@ -63,13 +34,7 @@ class AthleteController extends Controller
     $data = array();
     $athletes = array();
 
-    /*foreach($groups as $group => $groupvalue) {
-      foreach($events as $event => $eventvalue) {
-        foreach($scales as $scale => $scalevalue) {
-          $data[$group][$event][$scale] = 0;
-        }
-      }
-    }*/
+    
 
     foreach ($groups as $group => $groupvalue) {
       foreach($scales as $scale => $scalevalue) {
@@ -80,6 +45,7 @@ class AthleteController extends Controller
         // $page = 4001;
         do {
           // $total_pages = 1;
+          $total_pages = 100;
           // $total_pages = 1000;
           // $total_pages = 2000;
           // $total_pages = 3000;
@@ -91,8 +57,8 @@ class AthleteController extends Controller
           $options = array(
             'division' => 2,
             'region' => '0',
-            // 'scaled' => 0,
-            'scaled' => 1,
+            'scaled' => 0,
+            // 'scaled' => 1,
             'sort' => '0',
             'occupation' => '0',
             'page' => $page,
@@ -116,7 +82,7 @@ class AthleteController extends Controller
           // dd($result);
           // dd($url);
 
-          $total_pages = $result['pagination']['totalPages'];
+          // $total_pages = $result['pagination']['totalPages'];
           // $total_pages = 200;
           if ($result != null && isset($result['leaderboardRows'])) {
 
@@ -142,73 +108,100 @@ class AthleteController extends Controller
               foreach ($events as $event => $eventvalue) {
                 $wod = 'wod' . ($eventvalue + 1);
                 $data[$wod . '_score'] = intval($athlete['scores'][$eventvalue]['score']);
+                $data[$wod . '_score_display'] = $athlete['scores'][$eventvalue]['scoreDisplay'];
                 $data[$wod . '_rank'] = intval($athlete['scores'][$eventvalue]['rank']);
                 $data[$wod . '_scaled'] = intval($athlete['scores'][$eventvalue]['scaled']);
               }
 
               // dd($data);
 
-              DB::table('cf_open2018')->insert([$data]);
+              DB::table('cf_open2018_leaders')->insert([$data]);
 
               // $athletes[] = $data;
 
-
-            //   $scaled_events = 0;
-            //   $rx_events = 0;
-            //   foreach ($events as $event => $eventvalue) {
-            //     if ($eventvalue != 6 && $athlete['scores'][$eventvalue]['score'] != '0') {
-            //       if ($athlete['scores'][$eventvalue]['scaled'] == '0') {
-            //         $data[$group][$event]['Rx'] += 1;
-            //         $rx_events += 1;
-            //       } else {
-            //         $data[$group][$event]['Scaled'] += 1;
-            //         $scaled_events += 1;
-            //       }
-            //     }
-
-            //     if($eventvalue == 6) {
-            //       if ($rx_events == 6) {
-            //         $data[$group][$event]['Rx'] += 1;
-            //       } elseif ($scaled_events == 6) {
-            //         $data[$group][$event]['Scaled'] += 1;
-            //       }
-            //       if (($rx_events + $scaled_events) == 6) {
-            //         $data[$group][$event]['Total'] += 1;
-            //       }
-            //     }
-            //   }
             }
           }
 
           ++$page;
         } while ($page <= $total_pages);
 
-        // DB::table('open2018')->insert($athletes);
-
         dd('done');
-        echo '<table><tr>';
-          echo '<td>' . $data['M']['18.1']['Rx'] . '</td>';
-          echo '<td>' . $data['M']['18.2']['Rx'] . '</td>';
-          echo '<td>' . $data['M']['18.2a']['Rx'] . '</td>';
-          echo '<td>' . $data['M']['18.3']['Rx'] . '</td>';
-          echo '<td>' . $data['M']['18.4']['Rx'] . '</td>';
-          echo '<td>' . $data['M']['18.5']['Rx'] . '</td>';
-          echo '<td>' . $data['M']['total']['Rx'] . '</td>';
-          echo '<td>' . $data['M']['total']['Total'] . '</td>';
-        echo '</tr><tr>';
-          echo '<td>' . $data['M']['18.1']['Scaled'] . '</td>';
-          echo '<td>' . $data['M']['18.2']['Scaled'] . '</td>';
-          echo '<td>' . $data['M']['18.2a']['Scaled'] . '</td>';
-          echo '<td>' . $data['M']['18.3']['Scaled'] . '</td>';
-          echo '<td>' . $data['M']['18.4']['Scaled'] . '</td>';
-          echo '<td>' . $data['M']['18.5']['Scaled'] . '</td>';
-          echo '<td>' . $data['M']['total']['Scaled'] . '</td>';
-        echo '</tr></table>';
-
-        die();
-        dd($data['M']);
 
       }
     }
+  }
+
+  public function updateRegion() {
+
+    $regions = DB::table('cf_regions')->get();
+    // $regions = [5,6,9,10,11,14];
+    // $regions = [15,17,18,19,20,21];
+    // $regions = [22,23,24,25,26,27];
+    
+    // $regions = [5,6,9];
+    // $regions = [10,11,14];
+    // $regions = [15,17,18];
+    // $regions = [19,20,21];
+    // $regions = [22,23,24];
+    // $regions = [25,26,27];
+
+    $scale = [0,1];
+    $scale = [0];
+    // $scale = [1];
+    $wod_rankings = ['wod1_rank', 'wod2_rank', 'wod3_rank', 'wod4_rank', 'wod5_rank', 'wod6_rank'];
+    $genders = ['M', 'F'];
+    // $genders = ['M'];
+    // $genders = ['F'];
+    foreach ($genders as $gender) {
+      foreach ($regions as $region) {
+        foreach ($scale as $isScaled) {
+          $athletes = DB::table('cf_open2018_leaders')
+            // ->where('regionId', $region->regionId)
+            ->where('regionId', $region)
+            ->where('scaled_athlete', $isScaled)
+            ->where('gender', $gender)
+            ->orderBy('overall_rank', 'ASC')
+            ->get();
+
+          $rank = 1;
+
+          // Overall
+          foreach ($athletes as $athlete) {
+            DB::table('cf_open2018_leaders')
+              ->where('id', $athlete->id)
+              ->update(['overall_rank_region' => $rank]);
+
+            ++$rank;
+          }
+
+          // By WOD
+          foreach ($wod_rankings as $wod) {
+            $athletes = DB::table('cf_open2018_leaders')
+              // ->where('regionId', $region->regionId)
+              ->where('regionId', $region)
+              ->where('scaled_athlete', $isScaled)
+              ->where('gender', $gender)
+              ->orderBy($wod, 'ASC')
+              ->get();
+
+            $wod_rank = 1;
+
+            foreach ($athletes as $athlete) {
+              DB::table('cf_open2018_leaders')
+                ->where('id', $athlete->id)
+                ->update([$wod . '_region' => $wod_rank]);
+
+              ++$wod_rank;
+            }
+          }
+        }
+      }
+    }
+
+    echo 'Done';
+  }
+
+  public function getQualifiers() {
+
   }
 }

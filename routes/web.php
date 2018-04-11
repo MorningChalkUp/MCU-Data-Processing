@@ -32,6 +32,7 @@ Route::get('/email', 'EmailReportController@campaignList');
 Route::get('/email/all', 'EmailReportController@allStats');
 Route::get('/email/ave', 'EmailReportController@recentAve');
 Route::get('/email/ads', 'EmailReportController@updateAdsData');
+Route::get('/email/ads/all', 'EmailReportController@updateAllAdsData');
 
 Route::get('/hash/emails', 'HashController@hashEmails');
 
@@ -40,6 +41,7 @@ Route::get('update', 'CMController@updateAds');
 Route::get('/run/spider', 'CMController@updateDB');
 
 Route::get('/open/data', 'AthleteController@getData');
+Route::get('/open/update', 'AthleteController@updateRegion');
 
 // Variable Based Routes
 Route::get('/email/{id}', 'EmailReportController@emailStats');
