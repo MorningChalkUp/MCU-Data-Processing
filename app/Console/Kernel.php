@@ -26,9 +26,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('ads:update')->hourly();
+        $schedule->command('ads:update')->hourly();
 
-        // $schedule->command('ads:update --old')->sundays();
+        $schedule->command('ads:update --old')->sundays();
     }
 
     /**
