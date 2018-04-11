@@ -110,7 +110,12 @@ class Kernel extends ConsoleKernel
                     ->update(['meta_value' => $result['ad_clicks']]);
 
             }
-
+            DB::connection('mysql')
+                ->table('cron_run')
+                insert([
+                    'run_time' => date('Y-m-d H:i:s'),
+                    'run_event' => 'Hourly Ads Update'
+                ]);
         ))
         ->hourly();
 
@@ -196,6 +201,13 @@ class Kernel extends ConsoleKernel
                     ->update(['meta_value' => $result['ad_clicks']]);
 
             }
+
+            DB::connection('mysql')
+                ->table('cron_run')
+                insert([
+                    'run_time' => date('Y-m-d H:i:s'),
+                    'run_event' => 'Weekly Ads Update'
+                ]);
 
         ))
         ->weekly()
