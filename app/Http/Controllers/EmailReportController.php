@@ -261,7 +261,7 @@ class EmailReportController extends Controller
         }
       }
       
-       DB::connection('mysql')
+      DB::connection('mysql')
         ->table('cron_run')
         ->insert([
             'run_time' => date('Y-m-d H:i:s'),
