@@ -27,6 +27,8 @@ Route::get('guzzle', function() {
   dd($resp);
 });
 
+Route::get('cm', 'EngagementController@getUser');
+
 Route::get('/email', 'EmailReportController@campaignList');
 
 Route::get('/email/all', 'EmailReportController@allStats');
@@ -40,8 +42,12 @@ Route::get('update', 'CMController@updateAds');
 
 Route::get('/run/spider', 'CMController@updateDB');
 
-Route::get('/open/data', 'AthleteController@getData');
-Route::get('/open/update', 'AthleteController@updateRegion');
+Route::get('/games/open/data', 'AthleteController@getData');
+Route::get('/games/open/update', 'AthleteController@updateRegion');
+
+Route::get('/games/agoq', 'AthleteController@getDataAGOQ');
+
+
 
 // Variable Based Routes
 Route::get('/email/{id}', 'EmailReportController@emailStats');

@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('ads:update')->twiceDaily(1, 13);
 
-        $schedule->command('ads:update --time=old')->sundays();
+        // $schedule->command('ads:update --time=old')->sundays();
     }
 
     /**

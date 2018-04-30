@@ -115,7 +115,7 @@ class AthleteController extends Controller
 
               // dd($data);
 
-              DB::table('cf_open2018_leaders')->insert([$data]);
+              DB::table('cf_open2018_agoq')->insert([$data]);
 
               // $athletes[] = $data;
 
@@ -129,6 +129,109 @@ class AthleteController extends Controller
 
       }
     }
+  }
+
+  public function getDataAGOQ() {
+
+    $events = array(
+      '1' => 0,
+      '2' => 1,
+      '3' => 2,
+      '4' => 3,
+      '5' => 4
+    );
+
+    $groups = array(
+      'M 35-39' => 18,
+      'W 35-39' => 19,
+      'M 40-44' => 12,
+      'W 40-44' => 13,
+      'M 45-49' => 3,
+      'W 45-49' => 4,
+      'M 50-54' => 5,
+      'W 50-54' => 6,
+      'M 55-59' => 7,
+      'W 55-59' => 8,
+      'M 60+' => 9,
+      'W 60+' => 10,
+      'M 16-17' => 16,
+      'W 16-17' => 17,
+      'M 14-15' => 14,
+      'W 14-15' => 15,
+    );
+
+    $data = array();
+    $athletes = array();
+
+    foreach ($groups as $group => $groupvalue) {
+      $page = 1;
+      do {
+
+        $options = array(
+          'division' => $groupvalue,
+          'sort' => '0',
+          'page' => $page,
+        );
+        $option_list = array();
+        foreach ($options as $key => $value) {
+          $option_list[] = $key . '=' . $value;
+        }
+
+        $query = implode('&', $option_list);
+
+        $url = 'https://games.crossfit.com/competitions/api/v1/competitions/onlinequalifiers/2018/leaderboards?' . $query;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $result = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        $total_pages = $result['pagination']['totalPages'];
+
+        if ($result != null && isset($result['leaderboardRows'])) {
+
+          foreach ($result['leaderboardRows'] as $count => $athlete) {
+            $data['competitorId'] = intval($athlete['entrant']['competitorId']);
+            $data['competitorName'] = $athlete['entrant']['competitorName'];
+            $data['firstName'] = $athlete['entrant']['firstName'];
+            $data['lastName'] = $athlete['entrant']['lastName'];
+            $data['gender'] = $athlete['entrant']['gender'];
+            $data['regionalCode'] = intval($athlete['entrant']['regionalCode']);
+            $data['regionId'] = intval($athlete['entrant']['regionId']);
+            $data['regionName'] = $athlete['entrant']['regionName'];
+            $data['divisionId'] = intval($athlete['entrant']['divisionId']);
+            $data['divisionName'] = $group;
+            $data['affiliateId'] = intval($athlete['entrant']['affiliateId']);
+            $data['affiliateName'] = $athlete['entrant']['affiliateName'];
+            $data['age'] = intval($athlete['entrant']['age']);
+            $data['height'] = $athlete['entrant']['height'];
+            $data['weight'] = $athlete['entrant']['weight'];
+            $data['overall_rank'] = intval($athlete['overallRank']);
+            $data['overall_score'] = intval($athlete['overallScore']);
+
+            foreach ($events as $event => $eventvalue) {
+              $wod = 'wod' . ($eventvalue + 1);
+              $data[$wod . '_score'] = intval($athlete['scores'][$eventvalue]['score']);
+              $data[$wod . '_score_display'] = $athlete['scores'][$eventvalue]['scoreDisplay'];
+              $data[$wod . '_rank'] = intval($athlete['scores'][$eventvalue]['rank']);
+            }
+
+
+            DB::table('cf_open2018_agoq')->insert([$data]);
+            // DB::table('cf_open2018_agoq')->where('competitorId', $data['competitorId'])->update([$data]);
+
+          }
+        }
+
+        ++$page;
+      } while ($page <= $total_pages);
+
+    }
+
+    dd('done');
+
   }
 
   public function updateRegion() {
