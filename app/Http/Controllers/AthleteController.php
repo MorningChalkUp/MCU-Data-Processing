@@ -304,7 +304,129 @@ class AthleteController extends Controller
     echo 'Done';
   }
 
-  public function getQualifiers() {
+  public function regionE1() {
+    $region = array(
+      'East' => 21, // East
+      'Europe' => 22, // Europe
+      'South' => 23, // South
+    );
+    $div = array(
+      'Men' => 1,  // Men
+      'Women' => 2,  // Women
+      'Team' => 11, // Team
+    );
+    $sort = array(
+      'Overall' => 0,  // Overall
+      'Event1' => 1,  // Event 1
+      'Event2' => 2,  // Event 2
+      'Event3' => 3,  // Event 3
+      'Event4' => 4,  // Event 4
+      'Event5' => 5,  // Event 5
+      'Event6' => 6,  // Event 6
+    );
+
+    $query = 'division=' . $div['Women'] . '&' .
+      'regional=' . $region['South'] . '&' .
+      'sort=' . $sort['Event1'] . '&' .
+      'page=1';
+
+    $url = 'https://games.crossfit.com/competitions/api/v1/competitions/regionals/2018/leaderboards?' . $query;
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $result = json_decode(curl_exec($ch), true);
+    curl_close($ch);
+
+    // dd($result);
+
+    return view('pages.games.region.e1')->with('result', $result);
+  }
+
+  public function rOverall() {
+    $region = array(
+      'East' => 21, // East
+      'Europe' => 22, // Europe
+      'South' => 23, // South
+      'Central' => 24, // Central
+      'West' => 25, // Central
+      'LA' => 26, // Central
+      'Atlantic' => 27,
+      'Meridian' => 28,
+      'Pacific' => 29,
+      'All' => 32,
+    );
+    $divs = array(
+      'Men' => 1,  // Men
+      'Women' => 2,  // Women
+      'Team' => 11, // Team
+      'M14' => 14,
+      'W14' => 15,
+      'M16' => 16,
+      'W16' => 17,
+      'M35' => 18,
+      'W35' => 19,
+      'M40' => 12,
+      'W40' => 13,
+      'M45' => 3,
+      'W45' => 4,
+      'M50' => 5,
+      'W50' => 6,
+      'M55' => 7,
+      'W55' => 8,
+      'M60' => 9,
+      'W60' => 10,
+
+    );
+    $sort = array(
+      'Overall' => 0,  // Overall
+      'Event1' => 1,  // Event 1
+      'Event2' => 2,  // Event 2
+      'Event3' => 3,  // Event 3
+      'Event4' => 4,  // Event 4
+      'Event5' => 5,  // Event 5
+      'Event6' => 6,  // Event 6
+    );
+
+    foreach ($divs as $div => $id) {
+
+      $query = 'division=' . $id . '&' .
+      // $query = 'division=' . $divs['Team'] . '&' .
+        // 'regional=' . $region['Central'] . '&' .
+        'sort=' . $sort['Overall'] . '&' .
+        'page=1';
+
+      $url = 'https://games.crossfit.com/competitions/api/v1/competitions/games/2018/leaderboards?' . $query;
+
+      // dd($url);
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_URL, $url);
+      $result = json_decode(curl_exec($ch), true);
+      curl_close($ch);
+
+      $all[$div] = $result;
+
+      // dd($result);
+    }
+    return view('pages.games.region.o')->with('all', $all);
+  }
+
+  public function athleteProfile($id) {
+
+    $url = 'https://games.crossfit.com/competitions/api/v1/athlete/' . $id;
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $result = json_decode(curl_exec($ch), true);
+    curl_close($ch);
+
+    dd($result);
 
   }
 }

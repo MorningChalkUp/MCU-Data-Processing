@@ -17,15 +17,10 @@ Route::get('/', function () {
     return view('pages.welcome');
 });
 
-Route::get('guzzle', function() {
-  $client = new Client();
+Route::get('/c', 'AffiliateController@checkEmail');
 
-  // $resp = new Request('GET', 'https://games.crossfit.com/competitions/api/v1/competitions/open/2018/leaderboards?division=1&region=0&scaled=0&sort=0&occupation=0&page=1');
-
-  $resp = $client->get('https://games.crossfit.com/competitions/api/v1/competitions/open/2018/leaderboards?division=1&region=0&scaled=0&sort=0&occupation=0&page=1');
-
-  dd($resp);
-});
+Route::get('affiliates', 'AffiliateController@getHQList');
+Route::get('affiliates/top', 'AffiliateController@topCountries');
 
 Route::get('cm', 'EngagementController@getUser');
 
@@ -47,7 +42,10 @@ Route::get('/games/open/update', 'AthleteController@updateRegion');
 
 Route::get('/games/agoq', 'AthleteController@getDataAGOQ');
 
+Route::get('/games/r/e1', 'AthleteController@regionE1');
+Route::get('/games/r/o', 'AthleteController@rOverall');
 
+Route::get('/games/athlete/{id}', 'AthleteController@athleteProfile');
 
 // Variable Based Routes
 Route::get('/email/{id}', 'EmailReportController@emailStats');

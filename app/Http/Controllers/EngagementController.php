@@ -18,7 +18,7 @@ class EngagementController extends Controller
       }
     }
 
-    $emails = DB::connection('mysql')->table('cu_people')->select('email', 'pid')->get();
+    $emails = DB::connection('mysql')->table('cu_yahoo')->select('email')->get();
 
       // dd($emails);
 
@@ -37,7 +37,7 @@ class EngagementController extends Controller
           if ($history->Actions != []) {
 
             foreach ($history->Actions as $action) {
-              if (new Carbon('-14 days') <= $action->Date) {
+              if (new Carbon('-60 days') <= $action->Date) {
                 $active = true;
                 break(2);
               }
@@ -46,13 +46,13 @@ class EngagementController extends Controller
           }
 
           // Only check the past 15 emails
-          ++$count; if ($count > 15) break;
+          ++$count; if ($count > 60) break;
         
         }
 
       }
 
-      DB::connection('mysql')->table('cu_people')->where('pid', $email->pid)->update(['is_engaged' => $active]);
+      DB::connection('mysql')->table('cu_yahoo')->where('email', $email->email)->update(['is_engaged' => $active]);
 
       // dd([$active, $email]);
 
