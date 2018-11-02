@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('v1/email/simple/{id}', 'EmailDataController@getSimpleEmailData');
 
 Route::get('v1/email/{id}', 'EmailDataController@getEmailData');
+
+Route::post('/ads/receipt', 'EmailController@adsReceipt');
