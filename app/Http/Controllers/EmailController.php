@@ -9,7 +9,7 @@ use Mail;
 class EmailController extends Controller
 {
   public function adsReceipt(Request $request) {
-
+    echo 'in email';
     $data = array(
       'name' => $request->user['name'],
       'email' => $request->user['email'],
@@ -32,7 +32,8 @@ class EmailController extends Controller
   }
 
   public function test(Request $request) {
-    $url = $request->getSchemeAndHttpHost() . '/api/ads/receipt';
+    // $url = $request->getSchemeAndHttpHost() . '/api/ads/receipt';
+    $url = 'http://data.morningchalkup.com/api/ads/receipt';
     $data = array(
       'user' => array(
         'email' => 'eric@morningchalkup.com',
