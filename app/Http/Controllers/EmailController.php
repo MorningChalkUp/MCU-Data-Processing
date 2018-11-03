@@ -9,7 +9,7 @@ use Mail;
 class EmailController extends Controller
 {
   public function adsReceipt(Request $request) {
-    echo 'in email';
+
     $data = array(
       'name' => $request->user['name'],
       'email' => $request->user['email'],
@@ -19,8 +19,6 @@ class EmailController extends Controller
       'balance' => $request->total - $request->paid,
       'date' => Carbon::today()->toFormattedDateString(),
     );
-
-    var_dump($data);
 
     Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
       $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
