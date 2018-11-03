@@ -20,6 +20,8 @@ class EmailController extends Controller
       'date' => Carbon::today()->toFormattedDateString(),
     );
 
+    var_dump($data);
+
     Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
       $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
       $message->to($data['email'], $data['name']);
