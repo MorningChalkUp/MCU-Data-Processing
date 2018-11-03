@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Mail;
 
 class EmailController extends Controller
@@ -11,14 +12,18 @@ class EmailController extends Controller
 
     $data = array(
       'name' => $request->user['name'],
+      'email' => $request->user['email'],
       'order' => $request->transaction,
-      'cart' => $request->cart
+      'items' => $request->items,
+      'total' => $request->total,
+      'balance' => $request->total - $request->paid,
+      'date' => Carbon::today()->toFormattedDateString(),
     );
 
-    Mail::send('emails.receipt', array('data' => $data), function($message) use ($request) {
+    Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
       $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
-      $message->to($request->user['email'], request->user['name']);
-      $message->subject('Thank you for your order');
+      $message->to($data['email'], $data['name']);
+      $message->subject("Your Morning Chalk Up Sponsorship -- Order {$data['order']}");
     });
 
     return 1;
@@ -26,7 +31,36 @@ class EmailController extends Controller
 
   public function test() {
     $url = 'http://mcu-data.test/api/ads/receipt';
-    $data = array('email' => 'eric@morningchalkup.com');
+    $data = array(
+      'user' => array(
+        'email' => 'eric@morningchalkup.com',
+        'name' => 'Eric Sherred'
+      ),
+      'transaction' => 123,
+      'total' => 5250,
+      'paid' => 1050,
+      // 'paid' => 5250,
+      'items' => array(
+        array(
+          'id' => 123,
+          'start' => '10/2/18',
+          'end' => '10/5/18',
+          'facebook' => 'true',
+          'ab' => 'true',
+          'wewrite' => 'false',
+          'cost' => 2600,
+        ),
+        array(
+          'id' => 125,
+          'start' => '11/2/18',
+          'end' => '11/5/18',
+          'facebook' => 'false',
+          'ab' => 'false',
+          'wewrite' => 'true',
+          'cost' => 2350,
+        ),
+      ),
+    );
 
     $query = http_build_query($data);
 
