@@ -42,7 +42,7 @@
     Grand Total: ${{ number_format($data['total'], 2,'.', ',') }}<br>
     Balance Due: ${{ number_format($data['balance'], 2,'.', ',') }}
     @if($data['balance'] != 0)
-      by {{ date('n/j/Y', strtotime("+1 day", strtotime($data['items'][0]['start']))) }}
+      by {{ date('n/j/Y', strtotime("-1 month", strtotime($data['items'][0]['start']))) }}
     @endif
 
   </p>
