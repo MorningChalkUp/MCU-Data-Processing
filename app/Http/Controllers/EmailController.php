@@ -29,8 +29,8 @@ class EmailController extends Controller
     return 1;
   }
 
-  public function test() {
-    $url = 'http://mcu-data.test/api/ads/receipt';
+  public function test(Request $request) {
+    $url = $request->getSchemeAndHttpHost() . '/api/ads/receipt';
     $data = array(
       'user' => array(
         'email' => 'eric@morningchalkup.com',
