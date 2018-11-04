@@ -235,7 +235,7 @@
                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
                                 <td style="padding: 30px 40px 10px; text-align: center; font-family: Roboto, sans-serif; font-size: 15px; line-height: 20px; color: #ffffff;">
-                                    <a href="http://morningchalkup.com" style="border:none;text-decoration:none;"><img src="mcu-grey.png" width="300" height="40" alt="Morning Chalk Up" border="0" align="center" style="max-width: 100%; height: auto; font-family: Roboto, sans-serif; font-size: 24px; line-height: 36px; color: #ffffff; margin: auto;" class="g-img"></a>
+                                    <a href="http://morningchalkup.com" style="border:none;text-decoration:none;"><img src="https://i4.createsend1.com/ti/j/A2/853/084/104717/mcu-grey.png" width="300" height="40" alt="Morning Chalk Up" border="0" align="center" style="max-width: 100%; height: auto; font-family: Roboto, sans-serif; font-size: 24px; line-height: 36px; color: #ffffff; margin: auto;" class="g-img"></a>
                                 </td>
                             </tr>
                             <tr>

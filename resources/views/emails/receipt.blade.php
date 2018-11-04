@@ -48,18 +48,18 @@
 
         @endforeach
           <tr>
-              <td align="right">Grand Total</td>
-              <td align="right"><strong>${{ number_format($data['total'], 2,'.', ',') }}</strong></td>
+              <td align="right" style="white-space: nowrap">Grand Total</td>
+              <td align="right" style="white-space: nowrap"><strong>${{ number_format($data['total'], 2,'.', ',') }}</strong></td>
           </tr>
           <tr>
-              <td align="right">
+              <td align="right" style="white-space: nowrap">
                 @if($data['balance'] != 0)
                   Balance Due by: {{ date('n/j/Y', strtotime("-1 month", strtotime($data['items'][0]['start']))) }}
                 @else
                   Balance Due:
                 @endif
               </td>
-              <td align="right"><strong>${{ number_format($data['balance'], 2,'.', ',') }}</strong></td>
+              <td align="right" style="white-space: nowrap"><strong>${{ number_format($data['balance'], 2,'.', ',') }}</strong></td>
           </tr>
       </table>
     </td>
