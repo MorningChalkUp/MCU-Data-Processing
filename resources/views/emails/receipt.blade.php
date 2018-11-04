@@ -44,14 +44,17 @@
               <td align="right" style="white-space: nowrap;"><strong>${{ number_format($data['total'], 2,'.', ',') }}</strong></td>
           </tr>
           <tr>
-              <td align="right">
-                @if($data['balance'] != 0)
+              @if($data['balance'] != 0)
+                <td align="right">
                   Balance Due by: {{ date('n/j/Y', strtotime("-1 month", strtotime($data['items'][0]['start']))) }}
-                @else
+                </td>
+                <td align="right" style="white-space: nowrap;"><strong>${{ number_format($data['balance'], 2,'.', ',') }}</strong></td>
+              @else
+                <td align="right">
                   Balance Due:
-                @endif
-              </td>
-              <td align="right" style="white-space: nowrap;"><strong>${{ number_format($data['balance'], 2,'.', ',') }}</strong></td>
+                </td>
+                <td align="right" style="white-space: nowrap;"><strong>$0.00</strong></td>
+              @endif
           </tr>
       </table>
     </td>
