@@ -35,7 +35,7 @@
               </ul>
             </td>
             <td align="right" width="70">
-              <strong>${{number_format($data['cost'], 2,'.', ',')}}</strong>
+              <strong>${{number_format($item['cost'], 2,'.', ',')}}</strong>
             </td>
           </tr>
         @endforeach
