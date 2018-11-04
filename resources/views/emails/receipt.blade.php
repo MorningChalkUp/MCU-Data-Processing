@@ -19,15 +19,15 @@
     <h3>Morning Chalk Up Sponsorship -- {{ $item['start'] }} - {{ $item['end'] }}</h3>
 
     <ul>
-      @if($item['facebook'] == 'true')
+      @if(isset($item['facebook']) && $item['facebook'] == 'true')
         <li>Facebook Retargeting</li>
       @endif
 
-      @if($item['ab'] == 'true')
+      @if(isset($item['ab']) && $item['ab'] == 'true')
         <li>A/B Testing</li>
       @endif
 
-      @if($item['wewrite'] == 'true')
+      @if(isset($item['wewrite']) && $item['wewrite'] == 'true')
         <li>We write your ads</li>
       @endif
     </ul>
