@@ -34,7 +34,7 @@
                 @endif
               </ul>
             </td>
-            <td align="right" width="70">
+            <td align="right" width="70"  style="white-space: nowrap;">
               <strong>${{number_format($item['cost'], 2,'.', ',')}}</strong>
             </td>
           </tr>

@@ -187,7 +187,7 @@
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;">
                 <tr>
                     <td style="padding: 20px 40px 0; text-align: center">
-                        <img src="mcu-normal.png" width="320" height="63" alt="Morning Chalk Up" border="0" align="center" style="max-width: 100%; height: auto; font-family: Roboto, sans-serif; font-size: 24px; line-height: 36px; color: #555555; margin: auto;" class="g-img">
+                        <img src="https://i4.createsend1.com/ti/j/A2/853/084/104717/mcu-normal.png" width="320" height="63" alt="Morning Chalk Up" border="0" align="center" style="max-width: 100%; height: auto; font-family: Roboto, sans-serif; font-size: 24px; line-height: 36px; color: #555555; margin: auto;" class="g-img">
                     </td>
                 </tr>
             </table>
@@ -257,12 +257,6 @@
                             </tr>
                             <tr>
                                 <td style="padding: 10px 40px 40px; text-align: center; font-family: Roboto, sans-serif; font-size: 12px; line-height: 16px; color: #999999;">
-                                    <preferences><span style="color:#999999;">UPDATE PREFERENCES</span></preferences>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <unsubscribe><span style="color:#999999;">UNSUBSCRIBE</span></unsubscribe>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <forwardtoafriend><span style="color:#999999;">FORWARD TO FRIENDS</span></forwardtoafriend>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
                                     <a style="color:#999999;" href="http://morningchalkup.com/signup?utm_source=mailchimp&amp;utm_medium=email&amp;utm_campaign=signup-button" target="_blank"><span style="color:#999999;">SUBSCRIBE</span></a>
                                 </td>
                             </tr>
