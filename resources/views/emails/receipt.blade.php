@@ -1,7 +1,6 @@
 @extends('emails.wrapper')
 
 @section('body')
-
   <tr>
     <td style="padding: 40px 40px 10px; font-family: Roboto, sans-serif; font-size: 16px; line-height: 24px; color: #333132;">
 
@@ -36,30 +35,23 @@
               </ul>
             </td>
             <td align="right" width="70">
+              <strong>${{number_format($data['cost'], 2,'.', ',')}}</strong>
             </td>
           </tr>
-        <tr>
-    <td align="center" style="padding: 20px 40px 20px; font-family: Roboto, sans-serif; font-size: 14px; line-height: 24px; color: #333132;">
-      If you have any questions, email support@morningchalkup.com.
-    </td>
-  </tr>${{ number_format($item['cost'], 2,'.', ',') }}</strong>
-            </td>
-          </tr>
-
         @endforeach
           <tr>
-              <td align="right" style="white-space: nowrap">Grand Total</td>
-              <td align="right" style="white-space: nowrap"><strong>${{ number_format($data['total'], 2,'.', ',') }}</strong></td>
+              <td align="right">Grand Total</td>
+              <td align="right" style="white-space: nowrap;"><strong>${{ number_format($data['total'], 2,'.', ',') }}</strong></td>
           </tr>
           <tr>
-              <td align="right" style="white-space: nowrap">
+              <td align="right">
                 @if($data['balance'] != 0)
                   Balance Due by: {{ date('n/j/Y', strtotime("-1 month", strtotime($data['items'][0]['start']))) }}
                 @else
                   Balance Due:
                 @endif
               </td>
-              <td align="right" style="white-space: nowrap"><strong>${{ number_format($data['balance'], 2,'.', ',') }}</strong></td>
+              <td align="right" style="white-space: nowrap;"><strong>${{ number_format($data['balance'], 2,'.', ',') }}</strong></td>
           </tr>
       </table>
     </td>
