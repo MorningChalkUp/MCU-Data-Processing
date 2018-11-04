@@ -1,51 +1,76 @@
 @extends('emails.wrapper')
 
 @section('body')
-  <p>
-    Order #: {{ $data['order'] }}<br>
-    {{ $data['date'] }}
-  </p>
 
-  <p>{{ $data['name'] }},</p>
+  <tr>
+    <td style="padding: 40px 40px 10px; font-family: Roboto, sans-serif; font-size: 16px; line-height: 24px; color: #333132;">
 
-  <p>Thank you for reserving a sponsorship with the Morning Chalk Up.</p>
+      <p>{{ $data['date'] }}<br>
+      Order #{{ $data['order'] }}</p>
 
-  <p>Here are the details of your order:</p>
+      <p>{{ $data['name'] }},</p>
 
-  <hr>
+      <p>Thank you for reserving a sponsorship with the Morning Chalk Up.</p>
 
-  @foreach($data['items'] as $item)
-    
-    <h3>Morning Chalk Up Sponsorship -- {{ $item['start'] }} - {{ $item['end'] }}</h3>
+      <p>Here are the details of your order:</p>
 
-    <ul>
-      @if(isset($item['facebook']) && $item['facebook'] == 'true')
-        <li>Facebook Retargeting</li>
-      @endif
+      <table role="presentation" cellspacing="0" cellpadding="10" border="0" align="center" style="margin: auto;width:100%" width="100%">
 
-      @if(isset($item['ab']) && $item['ab'] == 'true')
-        <li>A/B Testing</li>
-      @endif
+        @foreach($data['items'] as $item)
 
-      @if(isset($item['wewrite']) && $item['wewrite'] == 'true')
-        <li>We write your ads</li>
-      @endif
-    </ul>
+          <tr style="border-bottom:1px solid #ccc;" valign="bottom">
+            <td>
+              <p><strong>Morning Chalk Up Sponsorship - {{ $item['start'] }} - {{ $item['end'] }}</strong></p>
+              <ul>
+                @if(isset($item['facebook']) && $item['facebook'] == 'true')
+                  <li>Facebook Retargeting</li>
+                @endif
 
-    <p>${{ number_format($item['cost'], 2,'.', ',') }}</p>
+                @if(isset($item['ab']) && $item['ab'] == 'true')
+                  <li>A/B Testing</li>
+                @endif
 
-    <hr>
+                @if(isset($item['wewrite']) && $item['wewrite'] == 'true')
+                  <li>We write your ads</li>
+                @endif
+              </ul>
+            </td>
+            <td align="right" width="70">
+            </td>
+          </tr>
+        <tr>
+    <td align="center" style="padding: 20px 40px 20px; font-family: Roboto, sans-serif; font-size: 14px; line-height: 24px; color: #333132;">
+      If you have any questions, email support@morningchalkup.com.
+    </td>
+  </tr>${{ number_format($item['cost'], 2,'.', ',') }}</strong>
+            </td>
+          </tr>
 
-  @endforeach
+        @endforeach
+          <tr>
+              <td align="right">Grand Total</td>
+              <td align="right"><strong>${{ number_format($data['total'], 2,'.', ',') }}</strong></td>
+          </tr>
+          <tr>
+              <td align="right">
+                @if($data['balance'] != 0)
+                  Balance Due by: {{ date('n/j/Y', strtotime("-1 month", strtotime($data['items'][0]['start']))) }}
+                @else
+                  Balance Due:
+                @endif
+              </td>
+              <td align="right"><strong>${{ number_format($data['balance'], 2,'.', ',') }}</strong></td>
+          </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="padding: 20px 40px 20px; font-family: Roboto, sans-serif; font-size: 14px; line-height: 24px; color: #333132;">
+      If you have any questions, email <a href="mailto:support@morningchalkup.com">support@morningchalkup.com</a>.
+    </td>
+  </tr>
+  <tr>
+    <td aria-hidden="true" height="20" style="font-size: 0; line-height: 0;">&nbsp;</td>
+  </tr>
 
-  <p>
-    Grand Total: ${{ number_format($data['total'], 2,'.', ',') }}<br>
-    Balance Due: ${{ number_format($data['balance'], 2,'.', ',') }}
-    @if($data['balance'] != 0)
-      by {{ date('n/j/Y', strtotime("-1 month", strtotime($data['items'][0]['start']))) }}
-    @endif
-
-  </p>
-
-  <p>If you have any questions, email <a href="mailto:support@morningchalkup.com">support@morningchalkup.com</a>.</p>
 @endsection
