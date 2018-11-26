@@ -26,11 +26,13 @@ class EmailController extends Controller
       $message->subject("Your Morning Chalk Up Sponsorship -- Order {$data['order']}");
     });
 
-    Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
-      $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
-      $message->to('partners@morningchalkup.com', 'Morning Chalk Up Partners');
-      $message->subject("New Sponsorship Order -- {$data['order']}");
-    });
+    if(!isset($request->send_admin) && $request->send_admin) {
+      Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
+        $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+        $message->to('partners@morningchalkup.com', 'Morning Chalk Up Partners');
+        $message->subject("New Sponsorship Order -- {$data['order']}");
+      });
+    }
 
     return 1;
   }
