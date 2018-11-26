@@ -34,11 +34,13 @@
                 @endif
               </ul>
             </td>
-            @if(isset($item['cost']))
-              <td align="right" width="70"  style="white-space: nowrap;">
+            <td align="right" width="70"  style="white-space: nowrap;">
+              @if(isset($item['cost']))
                 <strong>${{number_format($item['cost'], 2,'.', ',')}}</strong>
-              </td>
-            @endif
+              @else
+                <strong>&nbsp;</strong>
+              @endif
+            </td>
           </tr>
         @endforeach
           <tr>
