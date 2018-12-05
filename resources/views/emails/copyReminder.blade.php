@@ -10,6 +10,8 @@
       <p>{{ $data['name'] }},</p>
 
       <p>Your next ad buy will be starting on {{ $data['ad_date'] }}. Don't forget to update your ad copy by visiting <a href="https://ads.morningchalkup.com/p?{{ $data['week_id'] }}">here</a>.</p>
+
+      <p><a href="https://ads.morningchalkup.com/p?{{ $data['week_id'] }}" class="button-a">Write Your Ads</a></p>
     </td>
   </tr>
   <tr>

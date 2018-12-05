@@ -10,6 +10,8 @@
       <p>{{ $data['name'] }},</p>
 
       <p>Your first ad buy will be starting on {{ $data['ad_date'] }}. Don't forget to complete your payment beforehand by visiting <a href="https://ads.morningchalkup.com/p?{{ $data['order_id'] }}">here</a>.</p>
+
+      <p><a href="https://ads.morningchalkup.com/p?{{ $data['order_id'] }}" class="button-a">Pay Your Balance</a></p>
     </td>
   </tr>
   <tr>
