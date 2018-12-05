@@ -41,7 +41,7 @@ class EmailReportController extends Controller
       $campaigns = CampaignMonitor::clients(\Config::get('campaignmonitor.client_id'))->get_campaigns();
 
       foreach ($campaigns->response as $item) {
-        if ( strtotime($item->SentDate) >= strtotime('-30 days')) {
+        if ( strtotime($item->SentDate) <= strtotime('-1 year')) {
           $campaign = CampaignMonitor::campaigns($item->CampaignID)->get_summary();
           $clicks = CampaignMonitor::campaigns($item->CampaignID)->get_clicks();
           $data['name'] = $item->Name;
@@ -53,6 +53,8 @@ class EmailReportController extends Controller
           $data['clicks'] = number_format($campaign->response->Clicks);
           $data['click_rate'] = number_format($campaign->response->Clicks/$campaign->response->UniqueOpened*100, 2);
           $data['total_clicks'] = number_format($clicks->response->TotalNumberOfRecords);
+          $data['unsubs'] = number_format($campaign->response->Unsubscribed);
+          $data['bounces'] = number_format($campaign->response->Bounced);
 
           $all[] = $data;
         }

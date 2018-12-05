@@ -45,12 +45,12 @@ class EmailController extends Controller
       'ad_date' => $request->ad_date,
       'date' => Carbon::today()->toFormattedDateString(),
     );
-    return $data;
-    /*Mail::send('emails.copyReminder', array('data' => $data), function($message) use ($data) {
+    
+    Mail::send('emails.copyReminder', array('data' => $data), function($message) use ($data) {
       $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
       $message->to($data['email'], $data['name']);
       $message->subject("Remember to Write Your Ads for Morning Chalk Up");
-    });*/
+    });
   }
 
   public function paymentReminder(Request $request) {
@@ -71,7 +71,7 @@ class EmailController extends Controller
 
   public function test(Request $request) {
     // $url = $request->getSchemeAndHttpHost() . '/api/ads/receipt';
-    $url = '/api/ads/reminder/copy';
+    $url = 'http://data.morningchalkup.com/api/ads/reminder/copy';
     $data = array(
       'user' => array(
         'email' => 'eric@morningchalkup.com',
@@ -81,7 +81,7 @@ class EmailController extends Controller
       'ad_date' => "01/02/2019",
       'order_id' => 450,
     );
-    var_dump($data);
+
     $query = http_build_query($data);
 
     $ch = curl_init();
