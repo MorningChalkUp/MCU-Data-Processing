@@ -37,40 +37,51 @@ class EmailController extends Controller
     return 1;
   }
 
+  public function copyReminder(Request $request) {
+    $data = array(
+      'name' => $request->user['name'],
+      'email' => $request->user['email'],
+      'week_id' => $request->week_id,
+      'ad_date' => $request->ad_date,
+      'date' => Carbon::today()->toFormattedDateString(),
+    );
+    return $data;
+    /*Mail::send('emails.copyReminder', array('data' => $data), function($message) use ($data) {
+      $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+      $message->to($data['email'], $data['name']);
+      $message->subject("Remember to Write Your Ads for Morning Chalk Up");
+    });*/
+  }
+
+  public function paymentReminder(Request $request) {
+    $data = array(
+      'name' => $request->user['name'],
+      'email' => $request->user['email'],
+      'order_id' => $request->order_id,
+      'ad_date' => $request->ad_date,
+      'date' => Carbon::today()->toFormattedDateString(),
+    );
+
+    Mail::send('emails.paymentReminder', array('data' => $data), function($message) use ($data) {
+      $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+      $message->to($data['email'], $data['name']);
+      $message->subject("Please complete your payment");
+    });
+  }
+
   public function test(Request $request) {
     // $url = $request->getSchemeAndHttpHost() . '/api/ads/receipt';
-    $url = 'http://data.morningchalkup.com/api/ads/receipt';
+    $url = '/api/ads/reminder/copy';
     $data = array(
       'user' => array(
         'email' => 'eric@morningchalkup.com',
         'name' => 'Eric Sherred'
       ),
-      'transaction' => 123,
-      'total' => 5250,
-      'paid' => 1050,
-      // 'paid' => 5250,
-      'items' => array(
-        array(
-          'id' => 123,
-          'start' => '10/2/18',
-          'end' => '10/5/18',
-          'facebook' => 'true',
-          'ab' => 'true',
-          'wewrite' => 'false',
-          'cost' => 2600,
-        ),
-        array(
-          'id' => 125,
-          'start' => '11/2/18',
-          'end' => '11/5/18',
-          'facebook' => 'false',
-          'ab' => 'false',
-          'wewrite' => 'true',
-          'cost' => 2350,
-        ),
-      ),
+      'week_id' => 457,
+      'ad_date' => "01/02/2019",
+      'order_id' => 450,
     );
-
+    var_dump($data);
     $query = http_build_query($data);
 
     $ch = curl_init();

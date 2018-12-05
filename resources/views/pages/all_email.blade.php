@@ -22,6 +22,8 @@
               <th>Clicks</th>
               <th>Click Rate</th>
               <th>Total Clicks</th>
+              <th>Unsubscribes</th>
+              <th>Bounces</th>
             </tr>
           </thead>
           <tbody>
@@ -36,6 +38,8 @@
               <td>{{$campaign['clicks']}}</td>
               <td>{{$campaign['click_rate']}}%</td>
               <td>{{$campaign['total_clicks']}}</td>
+              <td>{{$campaign['unsubs']}}</td>
+              <td>{{$campaign['bounces']}}</td>
             </tr>
             @endforeach
           </tbody>
