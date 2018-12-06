@@ -26,7 +26,7 @@ class EmailController extends Controller
       $message->subject("Your Morning Chalk Up Sponsorship -- Order {$data['order']}");
     });
 
-    if(!isset($request->send_admin) && $request->send_admin) {
+    if(!isset($request->send_admin) || $request->send_admin) {
       Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
         $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
         $message->to('partners@morningchalkup.com', 'Morning Chalk Up Partners');
@@ -45,7 +45,7 @@ class EmailController extends Controller
       'ad_date' => $request->ad_date,
       'date' => Carbon::today()->toFormattedDateString(),
     );
-    
+
     Mail::send('emails.copyReminder', array('data' => $data), function($message) use ($data) {
       $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
       $message->to($data['email'], $data['name']);
@@ -74,8 +74,8 @@ class EmailController extends Controller
     $url = 'http://data.morningchalkup.com/api/ads/reminder/copy';
     $data = array(
       'user' => array(
-        'email' => 'eric@morningchalkup.com',
-        'name' => 'Eric Sherred'
+        'email' => 'mat@morningchalkup.com',
+        'name' => 'Mat Massoni'
       ),
       'week_id' => 457,
       'ad_date' => "01/02/2019",
