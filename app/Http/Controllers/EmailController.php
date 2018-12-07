@@ -43,7 +43,7 @@ class EmailController extends Controller
       'email' => $request->user['email'],
       'week_id' => $request->week_id,
       'ad_date' => (new Carbon($request->ad_date))->format('F Y jS'),
-      'ad_deadline' => (new Carbon($request->ad_date))->sub('5 days')->format('l F Y j'),
+      'ad_deadline' => (new Carbon($request->ad_dat))->subDays(5)->format('l F Y j'),
       'date' => Carbon::today()->toFormattedDateString(),
     );
 
