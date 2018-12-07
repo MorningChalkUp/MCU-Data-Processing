@@ -42,7 +42,8 @@ class EmailController extends Controller
       'name' => $request->user['name'],
       'email' => $request->user['email'],
       'week_id' => $request->week_id,
-      'ad_date' => $request->ad_date,
+      'ad_date' => Carbon::createFromTimeString()->format('F Y jS'),
+      'ad_deadline' => Carbon::createFromTimeString()->sub('5 days')->format('l F Y j'),
       'date' => Carbon::today()->toFormattedDateString(),
     );
 
@@ -74,8 +75,8 @@ class EmailController extends Controller
     $url = 'http://data.morningchalkup.com/api/ads/reminder/copy';
     $data = array(
       'user' => array(
-        'email' => 'mat@morningchalkup.com',
-        'name' => 'Mat Massoni'
+        'email' => 'eric@morningchalkup.com',
+        'name' => 'Eric Sherred'
       ),
       'week_id' => 457,
       'ad_date' => "01/02/2019",
