@@ -9,14 +9,14 @@
 
       <p>{{ $data['name'] }},</p>
 
-      <p>Your next ad buy will be starting on {{ $data['ad_date'] }}. Don't forget to update your ad copy by visiting <a href="https://ads.morningchalkup.com/p?{{ $data['week_id'] }}">here</a>.</p>
+      <p>Your next sponsorship starts on {{ $data['ad_date'] }}. Please log in to your account and submit your ad copy by {{ $data['ad_deadline'] }}.</p>
 
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto;">
         <tbody>
           <tr>
             <td style="border-radius: 3px; background: #3d5ba9; text-align: center;" class="button-td">
               <a href="https://ads.morningchalkup.com/p?{{ $data['week_id'] }}" style="background: #3d5ba9; border: 15px solid #3d5ba9; font-family: Roboto, sans-serif; font-size: 16px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
-                <span style="color:#ffffff;" class="button-link">Update Your Ad Copy</span>
+                <span style="color:#ffffff;" class="button-link">Draft Your Ads</span>
               </a>
             </td>
           </tr>
