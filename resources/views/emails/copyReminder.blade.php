@@ -15,7 +15,7 @@
         <tbody>
           <tr>
             <td style="border-radius: 3px; background: #3d5ba9; text-align: center;" class="button-td">
-              <a href="https://ads.morningchalkup.com/p?{{ $data['week_id'] }}" style="background: #3d5ba9; border: 15px solid #3d5ba9; font-family: Roboto, sans-serif; font-size: 16px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
+              <a href="https://ads.morningchalkup.com/?p={{ $data['week_id'] }}" style="background: #3d5ba9; border: 15px solid #3d5ba9; font-family: Roboto, sans-serif; font-size: 16px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
                 <span style="color:#ffffff;" class="button-link">Draft Your Ads</span>
               </a>
             </td>
