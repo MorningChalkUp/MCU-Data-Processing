@@ -9,7 +9,11 @@
 
       <p>{{ $data['name'] }},</p>
 
-      <p>Your next sponsorship starts on {{ $data['ad_date'] }}. Please log in to your account and submit your ad copy by {{ $data['ad_deadline'] }}.</p>
+      <p>Your next sponsorship starts on {{ $data['ad_date'] }}.</p>
+			
+			<p>The deadline to submit your ad copy is {{ $data['ad_deadline'] }} at 5:00 PM PT. Once your copy has been submitted, our team will review all sponsorships to ensure they meet our guidelines and spot check them for quality.</p>
+
+			<p>Please reach out if you have any questions.</p>
 
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto;">
         <tbody>
