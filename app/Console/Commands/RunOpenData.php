@@ -131,11 +131,12 @@ class RunOpenData extends Command
 									}
 									$registrations[$key]['Men']['Affiliates']['List'][$affiliate] = 1;
 								}
-							}
-							
-							++$args['page'];
-							
+							}	
+						} else {
+							$registrations[$key]['Men']['Error'][] = $args['page'];
 						}
+
+						++$args['page'];
 
 						Storage::disk('local')->put('data.json', json_encode($registrations));
 
@@ -183,11 +184,12 @@ class RunOpenData extends Command
 									}
 									$registrations[$key]['Women']['Affiliates']['List'][$affiliate] = 1;
 								}
-							}
-							
-							++$args['page'];
-							
+							}	
+						} else {
+							$registrations[$key]['Women']['Error'][] = $args['page'];
 						}
+
+						++$args['page'];
 
 						Storage::disk('local')->put('data.json', json_encode($registrations));
 
