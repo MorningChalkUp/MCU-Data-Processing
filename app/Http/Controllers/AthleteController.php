@@ -506,12 +506,13 @@ class AthleteController extends Controller
 			);
 			$url = $base . '?' . http_build_query($args);
 			$result = AthleteController::getUrl($url);
+			dd($result);
 			$registrations[$key]['Men']['Registrants'] = $result['pagination']['totalCompetitors'];
 			$pages = $result['pagination']['totalPages'];
 			
 			while($args['page'] <= $pages) {
 				$end = Carbon::now();
-
+				// $this->info($key . ' Men - Page ' . $args['page'] . ' of ' . $pages . ': ' . $end);
 				if($args['page'] != 1) {
 					$url = $base . '?' . http_build_query($args);
 					$result = AthleteController::getUrl($url);
@@ -520,6 +521,7 @@ class AthleteController extends Controller
 					foreach($result['leaderboardRows'] as $athlete) {
 						$country = $athlete['entrant']['countryOfOriginName'];
 						$affiliate = $athlete['entrant']['affiliateName'];
+						
 						if(isset($registrations[$key]['Men']['Countries']['List'][$country])) {
 							++$registrations[$key]['Men']['Countries']['List'][$country];
 						} else {
@@ -530,14 +532,28 @@ class AthleteController extends Controller
 							}
 							$registrations[$key]['Men']['Countries']['List'][$country] = 1;
 						}
+
+						if(isset($registrations[$key]['Men']['Affiliates']['List'][$affiliate])) {
+							++$registrations[$key]['Men']['Affiliates']['List'][$affiliate];
+						} else {
+							if(isset($registrations[$key]['Men']['Affiliates']['count'])) {
+								++$registrations[$key]['Men']['Affiliates']['count'];
+							} else {
+								$registrations[$key]['Men']['Affiliates']['count'] = 1;
+							}
+							$registrations[$key]['Men']['Affiliates']['List'][$affiliate] = 1;
+						}
 					}
 					
 					++$args['page'];
 					
 				}
+
+				Storage::disk('local')->put('data.json', json_encode($registrations));
+
 			}
 				
-			/* $args = array(
+			$args = array(
 				'division' => $div['Women'],
 				'scaled' => 0,
 				'page' => 1,
@@ -546,20 +562,48 @@ class AthleteController extends Controller
 			$result = AthleteController::getUrl($url);
 			$registrations[$key]['Women']['Registrants'] = $result['pagination']['totalCompetitors'];
 
-			foreach($result['leaderboardRows'] as $athlete) {
-				$country = $athlete['entrant']['countryOfOriginName'];
-				$affiliate = $athlete['entrant']['affiliateName'];
-				if(isset($registrations[$key]['Women']['Countries']['List'][$country])) {
-					++$registrations[$key]['Women']['Countries']['List'][$country];
-				} else {
-					if(isset($registrations[$key]['Women']['Countries']['count'])) {
-						++$registrations[$key]['Women']['Countries']['count'];
-					} else {
-						$registrations[$key]['Women']['Countries']['count'] = 1;
-					}
-					$registrations[$key]['Women']['Countries']['List'][$country] = 1;
+			while($args['page'] <= $pages) {
+				$end = Carbon::now();
+				// $this->info($key . ' Women - Page ' . $args['page'] . ' of ' . $pages . ': ' . $end);
+				if($args['page'] != 1) {
+					$url = $base . '?' . http_build_query($args);
+					$result = AthleteController::getUrl($url);
 				}
-			} */
+				if(isset($result['leaderboardRows'])){
+					foreach($result['leaderboardRows'] as $athlete) {
+						$country = $athlete['entrant']['countryOfOriginName'];
+						$affiliate = $athlete['entrant']['affiliateName'];
+						
+						if(isset($registrations[$key]['Women']['Countries']['List'][$country])) {
+							++$registrations[$key]['Women']['Countries']['List'][$country];
+						} else {
+							if(isset($registrations[$key]['Women']['Countries']['count'])) {
+								++$registrations[$key]['Women']['Countries']['count'];
+							} else {
+								$registrations[$key]['Women']['Countries']['count'] = 1;
+							}
+							$registrations[$key]['Women']['Countries']['List'][$country] = 1;
+						}
+
+						if(isset($registrations[$key]['Women']['Affiliates']['List'][$affiliate])) {
+							++$registrations[$key]['Women']['Affiliates']['List'][$affiliate];
+						} else {
+							if(isset($registrations[$key]['Women']['Affiliates']['count'])) {
+								++$registrations[$key]['Women']['Affiliates']['count'];
+							} else {
+								$registrations[$key]['Women']['Affiliates']['count'] = 1;
+							}
+							$registrations[$key]['Women']['Affiliates']['List'][$affiliate] = 1;
+						}
+					}
+					
+					++$args['page'];
+					
+				}
+
+				Storage::disk('local')->put('data.json', json_encode($registrations));
+
+			}
 		}
 
 		Storage::disk('local')->put('data.json', json_encode($registrations));
