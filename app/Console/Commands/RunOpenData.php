@@ -52,7 +52,7 @@ class RunOpenData extends Command
 						'Men' => 1,
 						'Women' => 2,
 					),
-					/* '14 - 15' => array(
+					'14 - 15' => array(
 						'Men' => 14,
 						'Women' => 15,
 					),
@@ -83,7 +83,7 @@ class RunOpenData extends Command
 					'60+' => array(
 						'Men' => 9,
 						'Women' => 10,
-					), */
+					),
 				);
 				
 				foreach($divs as $key => $div) {
@@ -94,13 +94,13 @@ class RunOpenData extends Command
 					);
 					$url = $base . '?' . http_build_query($args);
 					$result = AthleteController::getUrl($url);
-					dd($result);
+					// dd($result);
 					$registrations[$key]['Men']['Registrants'] = $result['pagination']['totalCompetitors'];
 					$pages = $result['pagination']['totalPages'];
 					
 					while($args['page'] <= $pages) {
 						$end = Carbon::now();
-						// $this->info($key . ' Men - Page ' . $args['page'] . ' of ' . $pages . ': ' . $end);
+						$this->info($key . ' Men - Page ' . $args['page'] . ' of ' . $pages . ': ' . $end);
 						if($args['page'] != 1) {
 							$url = $base . '?' . http_build_query($args);
 							$result = AthleteController::getUrl($url);
@@ -152,7 +152,7 @@ class RunOpenData extends Command
 
 					while($args['page'] <= $pages) {
 						$end = Carbon::now();
-						// $this->info($key . ' Women - Page ' . $args['page'] . ' of ' . $pages . ': ' . $end);
+						$this->info($key . ' Women - Page ' . $args['page'] . ' of ' . $pages . ': ' . $end);
 						if($args['page'] != 1) {
 							$url = $base . '?' . http_build_query($args);
 							$result = AthleteController::getUrl($url);
