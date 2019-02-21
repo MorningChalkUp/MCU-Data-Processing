@@ -48,10 +48,6 @@ class RunOpenData extends Command
 				$registrations = array();
 
 				$divs = array(
-					'RX' => array(
-						'Men' => 1,
-						'Women' => 2,
-					),
 					'14 - 15' => array(
 						'Men' => 14,
 						'Women' => 15,
@@ -83,6 +79,10 @@ class RunOpenData extends Command
 					'60+' => array(
 						'Men' => 9,
 						'Women' => 10,
+					),
+					'RX' => array(
+						'Men' => 1,
+						'Women' => 2,
 					),
 				);
 				
