@@ -139,7 +139,7 @@ class RunOpenData extends Command
 						++$args['page'];
 
 						Storage::disk('local')->put('data.json', json_encode($registrations));
-						sleep(.5);
+						sleep(1);
 					}
 						
 					$args = array(
@@ -193,8 +193,8 @@ class RunOpenData extends Command
 
 						Storage::disk('local')->put('data.json', json_encode($registrations));
 						
-						sleep(.5);
-						
+						sleep(1);
+
 					}
 				}
 
