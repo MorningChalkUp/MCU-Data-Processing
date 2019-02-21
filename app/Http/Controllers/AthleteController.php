@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use DB;
+use Illuminate\Support\Facades\Storage;
 
 class AthleteController extends Controller
 {
@@ -377,7 +378,6 @@ class AthleteController extends Controller
       'W55' => 8,
       'M60' => 9,
       'W60' => 10,
-
     );
     $sort = array(
       'Overall' => 0,  // Overall
@@ -428,5 +428,158 @@ class AthleteController extends Controller
 
     dd($result);
 
-  }
+	}
+	
+	public function getYearTop() {
+		// $url = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2018/leaderboards?division=2&sort=0&scaled=0&page=1';
+		$url = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2017/leaderboards?division=2&sort=0&scaled=0&page=1';
+		
+		$ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $result = json_decode(curl_exec($ch), true);
+		curl_close($ch);
+		
+		// 2018
+		/* foreach($result['leaderboardRows'] as $athlete) {
+			echo $athlete['entrant']['competitorName'] . '<br>';
+		} */
+
+		// 2017
+		foreach($result['athletes'] as $athlete) {
+			echo $athlete['name'] . '<br>';
+		}
+		
+		// dd($result);
+	}
+
+	public static function get2019() {
+		$base = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2019/leaderboards';
+		
+		$registrations = array();
+
+		$divs = array(
+			'RX' => array(
+				'Men' => 1,
+				'Women' => 2,
+			),
+			/* '14 - 15' => array(
+				'Men' => 14,
+				'Women' => 15,
+			),
+			'16 - 17' => array(
+				'Men' => 16,
+				'Women' => 17,
+			),
+			'35 - 39' => array(
+				'Men' => 18,
+				'Women' => 19,
+			),
+			'40 - 44' => array(
+				'Men' => 12,
+				'Women' => 13,
+			),
+			'45 - 49' => array(
+				'Men' => 3,
+				'Women' => 4,
+			),
+			'50 - 54' => array(
+				'Men' => 5,
+				'Women' => 6,
+			),
+			'55 - 59' => array(
+				'Men' => 7,
+				'Women' => 8,
+			),
+			'60+' => array(
+				'Men' => 9,
+				'Women' => 10,
+			), */
+		);
+		
+		foreach($divs as $key => $div) {
+			$args = array(
+				'division' => $div['Men'],
+				'scaled' => 0,
+				'page' => 1,
+			);
+			$url = $base . '?' . http_build_query($args);
+			$result = AthleteController::getUrl($url);
+			$registrations[$key]['Men']['Registrants'] = $result['pagination']['totalCompetitors'];
+			$pages = $result['pagination']['totalPages'];
+			
+			while($args['page'] <= $pages) {
+				$end = Carbon::now();
+
+				if($args['page'] != 1) {
+					$url = $base . '?' . http_build_query($args);
+					$result = AthleteController::getUrl($url);
+				}
+				if(isset($result['leaderboardRows'])){
+					foreach($result['leaderboardRows'] as $athlete) {
+						$country = $athlete['entrant']['countryOfOriginName'];
+						$affiliate = $athlete['entrant']['affiliateName'];
+						if(isset($registrations[$key]['Men']['Countries']['List'][$country])) {
+							++$registrations[$key]['Men']['Countries']['List'][$country];
+						} else {
+							if(isset($registrations[$key]['Men']['Countries']['count'])) {
+								++$registrations[$key]['Men']['Countries']['count'];
+							} else {
+								$registrations[$key]['Men']['Countries']['count'] = 1;
+							}
+							$registrations[$key]['Men']['Countries']['List'][$country] = 1;
+						}
+					}
+					
+					++$args['page'];
+					
+				}
+			}
+				
+			/* $args = array(
+				'division' => $div['Women'],
+				'scaled' => 0,
+				'page' => 1,
+			);
+			$url = $base . '?' . http_build_query($args);
+			$result = AthleteController::getUrl($url);
+			$registrations[$key]['Women']['Registrants'] = $result['pagination']['totalCompetitors'];
+
+			foreach($result['leaderboardRows'] as $athlete) {
+				$country = $athlete['entrant']['countryOfOriginName'];
+				$affiliate = $athlete['entrant']['affiliateName'];
+				if(isset($registrations[$key]['Women']['Countries']['List'][$country])) {
+					++$registrations[$key]['Women']['Countries']['List'][$country];
+				} else {
+					if(isset($registrations[$key]['Women']['Countries']['count'])) {
+						++$registrations[$key]['Women']['Countries']['count'];
+					} else {
+						$registrations[$key]['Women']['Countries']['count'] = 1;
+					}
+					$registrations[$key]['Women']['Countries']['List'][$country] = 1;
+				}
+			} */
+		}
+
+		Storage::disk('local')->put('data.json', json_encode($registrations));
+		// $url = Storage::url('data.json');
+
+		// dd($url);
+
+		// return view('pages.games.open.registrations')->with('registrations', $registrations);
+	}
+
+	public static function getUrl($url) {
+
+		$ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $result = json_decode(curl_exec($ch), true);
+		curl_close($ch);
+
+		return $result;
+
+	}
 }

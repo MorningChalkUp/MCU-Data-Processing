@@ -40,12 +40,14 @@ Route::get('update', 'CMController@updateAds');
 Route::get('/run/spider', 'CMController@updateDB');
 
 Route::get('/games/open/data', 'AthleteController@getData');
+Route::get('/games/open/2019', 'AthleteController@get2019');
 Route::get('/games/open/update', 'AthleteController@updateRegion');
 
 Route::get('/games/agoq', 'AthleteController@getDataAGOQ');
 
 Route::get('/games/r/e1', 'AthleteController@regionE1');
 Route::get('/games/r/o', 'AthleteController@rOverall');
+Route::get('/games/o/t', 'AthleteController@getYearTop');
 
 Route::get('/games/athlete/{id}', 'AthleteController@athleteProfile');
 
