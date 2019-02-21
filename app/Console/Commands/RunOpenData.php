@@ -199,7 +199,7 @@ class RunOpenData extends Command
 				$end = Carbon::now();
 				$this->info('Finish Time: ' . $end);
 
-				$this->info('Total Run Time: ' . $end->diff($start));
+				// $this->info('Total Run Time: ' . $end->diff($start));
         
     }
 }
