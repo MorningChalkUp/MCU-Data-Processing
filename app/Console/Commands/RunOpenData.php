@@ -139,7 +139,7 @@ class RunOpenData extends Command
 						++$args['page'];
 
 						Storage::disk('local')->put('data.json', json_encode($registrations));
-
+						sleep(.5);
 					}
 						
 					$args = array(
@@ -192,12 +192,15 @@ class RunOpenData extends Command
 						++$args['page'];
 
 						Storage::disk('local')->put('data.json', json_encode($registrations));
-
+						
+						sleep(.5);
+						
 					}
 				}
 
 				Storage::disk('local')->put('data.json', json_encode($registrations));
 
+				$this->info('Start Time: ' . $start);
 				$end = Carbon::now();
 				$this->info('Finish Time: ' . $end);
 
