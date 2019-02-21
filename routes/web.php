@@ -41,6 +41,7 @@ Route::get('/run/spider', 'CMController@updateDB');
 
 Route::get('/games/open/data', 'AthleteController@getData');
 Route::get('/games/open/2019', 'AthleteController@get2019');
+Route::get('/games/open/2019/show', 'AthleteController@show2019');
 Route::get('/games/open/update', 'AthleteController@updateRegion');
 
 Route::get('/games/agoq', 'AthleteController@getDataAGOQ');

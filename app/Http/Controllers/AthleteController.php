@@ -626,4 +626,10 @@ class AthleteController extends Controller
 		return $result;
 
 	}
+
+	public function show2019() {
+		$data = Storage::disk('local')->get('data.json');
+
+		dd(json_decode($data));
+	}
 }
