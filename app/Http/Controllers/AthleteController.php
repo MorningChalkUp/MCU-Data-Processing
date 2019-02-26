@@ -455,7 +455,7 @@ class AthleteController extends Controller
 	}
 
 	public static function get2019() {
-		$base = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2018/leaderboards';
+		$base = 'https://games.crossfit.com/competitions/api/v1/competitions/open/2019/leaderboards';
 		
 		$registrations = array();
 

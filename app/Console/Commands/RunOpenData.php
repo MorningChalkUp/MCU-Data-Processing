@@ -131,6 +131,29 @@ class RunOpenData extends Command
 									}
 									$registrations[$key]['Men']['Affiliates']['List'][$affiliate] = 1;
 								}
+
+								if(isset($registrations['Total']['Affiliates']['List'][$affiliate])) {
+									++$registrations['Total']['Affiliates']['List'][$affiliate];
+								} else {
+									if(isset($registrations['Total']['Affiliates']['count'])) {
+										++$registrations['Total']['Affiliates']['count'];
+									} else {
+										$registrations['Total']['Affiliates']['count'] = 1;
+									}
+									$registrations['Total']['Affiliates']['List'][$affiliate] = 1;
+								}
+
+								if(isset($registrations['Total']['Countries']['List'][$country])) {
+									++$registrations['Total']['Countries']['List'][$country];
+								} else {
+									if(isset($registrations['Total']['Countries']['count'])) {
+										++$registrations['Total']['Countries']['count'];
+									} else {
+										$registrations['Total']['Countries']['count'] = 1;
+									}
+									$registrations['Total']['Countries']['List'][$country] = 1;
+								}
+								
 							}	
 						} else {
 							$registrations[$key]['Men']['Error'][] = $args['page'];
@@ -139,7 +162,7 @@ class RunOpenData extends Command
 						++$args['page'];
 
 						Storage::disk('local')->put('data.json', json_encode($registrations));
-						sleep(3);
+						sleep(5);
 					}
 						
 					$args = array(
@@ -184,6 +207,28 @@ class RunOpenData extends Command
 									}
 									$registrations[$key]['Women']['Affiliates']['List'][$affiliate] = 1;
 								}
+
+								if(isset($registrations['Total']['Affiliates']['List'][$affiliate])) {
+									++$registrations['Total']['Affiliates']['List'][$affiliate];
+								} else {
+									if(isset($registrations['Total']['Affiliates']['count'])) {
+										++$registrations['Total']['Affiliates']['count'];
+									} else {
+										$registrations['Total']['Affiliates']['count'] = 1;
+									}
+									$registrations['Total']['Affiliates']['List'][$affiliate] = 1;
+								}
+
+								if(isset($registrations['Total']['Countries']['List'][$country])) {
+									++$registrations['Total']['Countries']['List'][$country];
+								} else {
+									if(isset($registrations['Total']['Countries']['count'])) {
+										++$registrations['Total']['Countries']['count'];
+									} else {
+										$registrations['Total']['Countries']['count'] = 1;
+									}
+									$registrations['Total']['Countries']['List'][$country] = 1;
+								}
 							}	
 						} else {
 							$registrations[$key]['Women']['Error'][] = $args['page'];
@@ -193,7 +238,7 @@ class RunOpenData extends Command
 
 						Storage::disk('local')->put('data.json', json_encode($registrations));
 						
-						sleep(3);
+						sleep(5);
 
 					}
 				}
