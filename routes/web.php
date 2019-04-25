@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('pages.welcome');
 });
 
+Route::post('/subscribe/bug', 'SubscriberController@subscribeUserBug');
+
 Route::get('/ads/test', 'EmailController@test');
 
 Route::get('/c', 'AffiliateController@checkEmail');

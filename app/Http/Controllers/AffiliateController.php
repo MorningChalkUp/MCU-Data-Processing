@@ -60,7 +60,7 @@ class AffiliateController extends Controller
       do {
 
         // $resp = $client->request('GET', 'https://www.crossfit.com/cf/find-a-box.php?country=' . $country . '&page=' . $i);
-        $resp = $client->request('GET', 'https://www.crossfit.com/cf/find-a-box.php?page=' . $i);
+        $resp = $client->request('GET', 'https://www.crossfit.com/cf/find-a-box.php?country=US&page=' . $i);
 
         if(json_decode($resp->getBody()) != null) {
           // dump(json_decode($resp->getBody()));

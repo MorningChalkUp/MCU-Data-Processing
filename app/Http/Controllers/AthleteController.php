@@ -468,7 +468,7 @@ class AthleteController extends Controller
 				'Men' => 14,
 				'Women' => 15,
 			),
-			/* '16 - 17' => array(
+			'16 - 17' => array(
 				'Men' => 16,
 				'Women' => 17,
 			),
@@ -487,7 +487,7 @@ class AthleteController extends Controller
 			'50 - 54' => array(
 				'Men' => 5,
 				'Women' => 6,
-			), */
+			),
 			'55 - 59' => array(
 				'Men' => 7,
 				'Women' => 8,

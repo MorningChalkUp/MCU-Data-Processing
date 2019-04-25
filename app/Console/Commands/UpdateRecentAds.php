@@ -107,6 +107,16 @@ class UpdateRecentAds extends Command
                     }
                 }
 
+                $link_url = DB::connection('analytics')
+                    ->table('wp_postmeta')
+                    ->where('post_id', $post->ID)
+                    ->where('meta_key', 'link_url')
+                    ->get();
+
+                if($link_url) {
+                    $data[$count->post_id]['link_url'] = $link_url->meta_value;
+                }
+
                 foreach ($data as $value) {
 
                     $url = 'http://data.morningchalkup.com/api/v1/email/simple/' . $campaign->meta_value;
@@ -116,6 +126,11 @@ class UpdateRecentAds extends Command
                     foreach ($value['urls'] as $ad_url) {
                         $query .= 'url[]=' . $ad_url . '&';
                     }
+
+                    if(isset($value['link_url'])) {
+                        $query .= 'link_url=' . $value['link_url'];
+                    }
+
 
                     $url .= '?' . substr($query, 0, -1);
 
@@ -148,6 +163,16 @@ class UpdateRecentAds extends Command
                         ->where('meta_key', 'ad_clicks')
                         ->where('post_id', $post->ID)
                         ->update(['meta_value' => $result['ad_clicks']]);
+                    
+                    if(isset($value['link_url'])) {
+                        $url = DB::connection('analytics')
+                            ->table('wp_postmeta')
+                            ->select('meta_value')
+                            ->where('meta_key', 'sponsored_link_clicks')
+                            ->where('post_id', $post->ID)
+                            ->update(['meta_value' => $result['sponsored_link_clicks']]);
+                    }
+                    
                 }
 
             }
