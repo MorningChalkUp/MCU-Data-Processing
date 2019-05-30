@@ -19,7 +19,7 @@
 
           <tr style="border-bottom:1px solid #ccc;" valign="bottom">
             <td>
-              <p><strong>Morning Chalk Up Sponsorship - {{ $item['start'] }} - {{ $item['end'] }}</strong></p>
+              <p><strong>{{ $data['type'] }} - {{ $item['start'] }} - {{ $item['end'] }}</strong></p>
               <ul>
                 @if(isset($item['facebook']) && $item['facebook'] == 'true')
                   <li>Facebook Retargeting</li>
