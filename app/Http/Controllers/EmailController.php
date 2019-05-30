@@ -9,10 +9,15 @@ use Mail;
 class EmailController extends Controller
 {
   public function adsReceipt(Request $request) {
-
+    if(!isset($request->type)) {
+      $type = 'Morning Chalk Up Sponsored Link';
+    } else {
+      $type = $request->type;
+    }
     $data = array(
       'name' => $request->user['name'],
       'email' => $request->user['email'],
+      'type' => $type,
       'order' => $request->transaction,
       'items' => $request->items,
       'total' => $request->total,
@@ -23,15 +28,16 @@ class EmailController extends Controller
     Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
       $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
       $message->to($data['email'], $data['name']);
-      $message->subject("Your Morning Chalk Up Sponsorship -- Order {$data['order']}");
+      $message->subject("Your {$data['type']} -- Order {$data['order']}");
     });
 
     if(!isset($request->send_admin) || $request->send_admin) {
       Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
         $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
-        $message->to('partners@morningchalkup.com', 'Morning Chalk Up Partners');
-        $message->subject("New Sponsorship Order -- {$data['order']}");
+        $message->to(['ads@morningchalkup.com', 'mat@morningchalkup.com']);
+        $message->subject("New {$data['type']} -- {$data['order']}");
       });
+
     }
 
     return 1;
@@ -51,6 +57,21 @@ class EmailController extends Controller
       $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
       $message->to($data['email'], $data['name']);
       $message->subject("Remember to Write Your Ads for Morning Chalk Up");
+    });
+  }
+
+  public function linkInfo(Request $request) {
+    $data = array(
+      'name' => $request->user['name'],
+      'email' => $request->user['email'],
+      'ad_date' => (new Carbon($request->ad_date))->format('l, F jS, Y'),
+    );
+
+    Mail::send('emails.link', array('data' => $data), function($message) use ($data) {
+      $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+      $message->to($data['email'], $data['name']);
+      $message->cc('ads@morningchalkup.com');
+      $message->subject("Sponsored Link -- {$data['ad_date']}");
     });
   }
 

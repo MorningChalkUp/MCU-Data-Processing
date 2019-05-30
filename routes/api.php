@@ -22,6 +22,7 @@ Route::get('v1/email/simple/{id}', 'EmailDataController@getSimpleEmailData');
 Route::get('v1/email/{id}', 'EmailDataController@getEmailData');
 
 Route::post('/ads/receipt', 'EmailController@adsReceipt');
+Route::post('/ads/reminder/link', 'EmailController@linkInfo');
 Route::post('/ads/reminder/copy', 'EmailController@copyReminder');
 Route::post('/ads/reminder/payment', 'EmailController@paymentReminder');
 
