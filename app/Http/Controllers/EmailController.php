@@ -58,6 +58,7 @@ class EmailController extends Controller
       $message->to($data['email'], $data['name']);
       $message->subject("Remember to Write Your Ads for Morning Chalk Up");
     });
+    return 1;
   }
 
   public function linkInfo(Request $request) {
@@ -73,6 +74,8 @@ class EmailController extends Controller
       $message->cc('ads@morningchalkup.com');
       $message->subject("Sponsored Link -- {$data['ad_date']}");
     });
+    return 1;
+
   }
 
   public function paymentReminder(Request $request) {
@@ -89,11 +92,14 @@ class EmailController extends Controller
       $message->to($data['email'], $data['name']);
       $message->subject("Please complete your payment");
     });
+    return 1;
+
   }
 
   public function test(Request $request) {
     // $url = $request->getSchemeAndHttpHost() . '/api/ads/receipt';
-    $url = 'http://data.morningchalkup.com/api/ads/reminder/copy';
+    // $url = 'http://data.morningchalkup.com/api/ads/reminder/copy';
+    $url = 'http://data.morningchalkup.com/api/ads/reminder/link';
     $data = array(
       'user' => array(
         'email' => 'eric@morningchalkup.com',
