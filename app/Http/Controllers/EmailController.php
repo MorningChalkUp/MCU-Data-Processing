@@ -64,7 +64,7 @@ class EmailController extends Controller
     $data = array(
       'name' => $request->user['name'],
       'email' => $request->user['email'],
-      'ad_date' => (new Carbon($request->ad_date))->format('l, F jS, Y'),
+      'ad_date' => (new Carbon($request->ad_date))->format('l, F jS'),
     );
 
     Mail::send('emails.link', array('data' => $data), function($message) use ($data) {
