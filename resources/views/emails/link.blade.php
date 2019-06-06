@@ -6,7 +6,7 @@
 
       <p>{{ $data['name'] }},</p>
 
-      <p>Your sponsored link is going in on {{ $data['ad_date'] }}</p>
+      <p>Your sponsored link is going in on {{ $data['ad_date'] }}.</p>
 
       <p>Here's what we need from you:</p>
 
