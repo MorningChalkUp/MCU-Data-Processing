@@ -26,14 +26,14 @@ class EmailController extends Controller
     );
 
     Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
-      $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+      $message->from('ads@morningchalkup.com', 'Morning Chalk Up Ads');
       $message->to($data['email'], $data['name']);
       $message->subject("Your {$data['type']} -- Order {$data['order']}");
     });
 
     if(!isset($request->send_admin) || $request->send_admin) {
       Mail::send('emails.receipt', array('data' => $data), function($message) use ($data) {
-        $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+        $message->from('info@morningchalkup.com', 'Morning Chalk Up');
         $message->to(['ads@morningchalkup.com', 'mat@morningchalkup.com']);
         $message->subject("New {$data['type']} -- {$data['order']}");
       });
@@ -54,7 +54,7 @@ class EmailController extends Controller
     );
 
     Mail::send('emails.copyReminder', array('data' => $data), function($message) use ($data) {
-      $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+      $message->from('ads@morningchalkup.com', 'Morning Chalk Up Ads');
       $message->to($data['email'], $data['name']);
       $message->subject("Remember to Write Your Ads for Morning Chalk Up");
     });
@@ -69,7 +69,7 @@ class EmailController extends Controller
     );
 
     Mail::send('emails.link', array('data' => $data), function($message) use ($data) {
-      $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+      $message->from('ads@morningchalkup.com', 'Morning Chalk Up Ads');
       $message->to($data['email'], $data['name']);
       $message->cc('ads@morningchalkup.com');
       $message->subject("Sponsored Link -- {$data['ad_date']}");
@@ -88,7 +88,7 @@ class EmailController extends Controller
     );
 
     Mail::send('emails.paymentReminder', array('data' => $data), function($message) use ($data) {
-      $message->from('info@mail.morningchalkup.com', 'Morning Chalk Up');
+      $message->from('ads@morningchalkup.com', 'Morning Chalk Up Ads');
       $message->to($data['email'], $data['name']);
       $message->subject("Please complete your payment");
     });
@@ -102,7 +102,7 @@ class EmailController extends Controller
     $url = 'http://data.morningchalkup.com/api/ads/reminder/link';
     $data = array(
       'user' => array(
-        'email' => 'eric@morningchalkup.com',
+        'email' => 'eric@ericsherred.com',
         'name' => 'Eric Sherred'
       ),
       'week_id' => 457,
