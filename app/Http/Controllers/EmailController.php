@@ -69,9 +69,10 @@ class EmailController extends Controller
     );
 
     Mail::send('emails.link', array('data' => $data), function($message) use ($data) {
-      $message->from('ads@morningchalkup.com', 'Morning Chalk Up Ads');
+      $message->from('info@morningchalkup.com', 'Morning Chalk Up');
       $message->to($data['email'], $data['name']);
       $message->cc('ads@morningchalkup.com');
+      $message->replyTo('ads@morningchalkup.com');
       $message->subject("Sponsored Link -- {$data['ad_date']}");
     });
     return 1;
