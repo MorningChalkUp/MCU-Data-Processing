@@ -102,7 +102,7 @@ class UpdateRecentAds extends Command
                         ->where('post_id', $url_count->post_id)
                         ->get();
 
-                    $data[$count->post_id]['urls'][] = $url[0]->meta_value;
+                    $data[$url_count->post_id]['urls'][] = $url[0]->meta_value;
                 }
 
                 $link_url = DB::connection('analytics')
@@ -112,7 +112,7 @@ class UpdateRecentAds extends Command
                     ->get();
 
                 if($link_url) {
-                    $data[$count->post_id]['link_url'] = $link_url->meta_value;
+                    $data[$url_count->post_id]['link_url'] = $link_url->meta_value;
                 }
 
                 foreach ($data as $value) {
