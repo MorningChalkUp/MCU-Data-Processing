@@ -91,20 +91,18 @@ class UpdateRecentAds extends Command
                     ->table('wp_postmeta')
                     ->where('post_id', $post->ID)
                     ->where('meta_key', 'ad_urls')
-                    ->get();
+                    ->first();
 
-                foreach ($url_count as $count) {
-                    for($i = 0; $i < $count->meta_value; ++$i) {
-                        $meta_key = 'ad_urls_' . $i . '_url';
-                        $url = DB::connection('analytics')
-                            ->table('wp_postmeta')
-                            ->select('meta_value')
-                            ->where('meta_key', $meta_key)
-                            ->where('post_id', $count->post_id)
-                            ->get();
+                for($i = 0; $i < $url_count->meta_value; ++$i) {
+                    $meta_key = 'ad_urls_' . $i . '_url';
+                    $url = DB::connection('analytics')
+                        ->table('wp_postmeta')
+                        ->select('meta_value')
+                        ->where('meta_key', $meta_key)
+                        ->where('post_id', $count->post_id)
+                        ->get();
 
-                        $data[$count->post_id]['urls'][] = $url[0]->meta_value;
-                    }
+                    $data[$count->post_id]['urls'][] = $url[0]->meta_value;
                 }
 
                 $link_url = DB::connection('analytics')
