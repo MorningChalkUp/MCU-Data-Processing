@@ -99,7 +99,7 @@ class UpdateRecentAds extends Command
                         ->table('wp_postmeta')
                         ->select('meta_value')
                         ->where('meta_key', $meta_key)
-                        ->where('post_id', $count->post_id)
+                        ->where('post_id', $url_count->post_id)
                         ->get();
 
                     $data[$count->post_id]['urls'][] = $url[0]->meta_value;
