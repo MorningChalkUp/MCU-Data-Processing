@@ -35,6 +35,8 @@ Route::get('/email/ave', 'EmailReportController@recentAve');
 Route::get('/email/ads', 'EmailReportController@updateAdsData');
 Route::get('/email/ads/all', 'EmailReportController@updateAllAdsData');
 
+Route::get('/email/cc', 'EmailDataController@compCorner');
+
 Route::get('/hash/emails', 'HashController@hashEmails');
 
 Route::get('update', 'CMController@updateAds');

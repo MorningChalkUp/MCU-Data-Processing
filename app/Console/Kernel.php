@@ -26,9 +26,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('ads:update --time=new')->everyThirtyMinutes();
+        // $schedule->command('ads:update --time=new')->everyThirtyMinutes();
 
-        $schedule->command('ads:update')->twiceDaily(1, 13);
+        // $schedule->command('ads:update')->twiceDaily(1, 13);
+        
+        $schedule->command('import:cc')->daily();
 
         // $schedule->command('ads:update --time=old')->sundays();
     }
