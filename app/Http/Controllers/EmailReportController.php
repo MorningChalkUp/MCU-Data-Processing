@@ -72,7 +72,7 @@ class EmailReportController extends Controller
       $data['total_clicks'] = 0;
 
       foreach ($campaigns->response as $item) {
-        if ( strtotime($item->SentDate) >= strtotime('january 1, 2018')) {
+        if ( strtotime($item->SentDate) >= strtotime('january 1, 2019')) {
           $campaign = CampaignMonitor::campaigns($item->CampaignID)->get_summary();
           $clicks = CampaignMonitor::campaigns($item->CampaignID)->get_clicks();
           $data['recipiants'] += $campaign->response->Recipients;
