@@ -74,7 +74,7 @@ class GetEngaged extends Command
                 }
                 Storage::disk('local')->append('engagement.csv', $user->EmailAddress . ',' . $emails[$user->EmailAddress]);
 
-                sleep(10);
+                // sleep(10);
             }
             ++$page;
 
