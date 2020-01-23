@@ -60,7 +60,9 @@ class GetEngaged extends Command
         $page = 1;
 
         do {
-            $r = CampaignMonitor::lists($list_id)->get_active_subscribers(date('Y-m-d', strtotime('-5 years')), $page, 10, 'email', 'asc');
+            $r = CampaignMonitor::lists($list_id)->get_active_subscribers(date('Y-m-d', strtotime('-5 years')), $page, 500, 'email', 'asc');
+
+            $this->info('Page ' . $page . ' of ' . $r->response->NumberOfPages);
 
             foreach($r->response->Results as $user) {
                 $history = CampaignMonitor::subscribers($list_id)->get_history($user->EmailAddress);
@@ -71,10 +73,11 @@ class GetEngaged extends Command
                     }
                 }
                 Storage::disk('local')->append('engagement.csv', $user->EmailAddress . ',' . $emails[$user->EmailAddress]);
+
+                sleep(10);
             }
             ++$page;
 
-            $this->info('Page ' . $page . ' of ' . $r->response->NumberOfPages);
         } while($page <= $r->response->NumberOfPages);
         $end = Carbon::now();
         $this->info('End Time: ' . $end);
