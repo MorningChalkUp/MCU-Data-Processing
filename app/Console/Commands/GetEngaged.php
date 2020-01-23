@@ -14,7 +14,7 @@ class GetEngaged extends Command
      *
      * @var string
      */
-    protected $signature = 'engaged:set';
+    protected $signature = 'engaged:get';
 
     /**
      * The console command description.
