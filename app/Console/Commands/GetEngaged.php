@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use CampaignMonitor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 
 class GetEngaged extends Command
