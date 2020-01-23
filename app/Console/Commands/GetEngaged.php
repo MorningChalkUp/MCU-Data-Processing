@@ -48,8 +48,8 @@ class GetEngaged extends Command
 
         $emails = array();
 
-        Storage::delete('engagement.csv');
-        Storage::disk('local')->append('engagement.csv', 'email,active date');
+        // Storage::delete('engagement.csv');
+        // Storage::disk('local')->append('engagement.csv', 'email,active date');
 
 
         foreach ($return->response as $list) {
@@ -57,7 +57,7 @@ class GetEngaged extends Command
                 $list_id = $list->ListID;
             }
         }
-        $page = 1;
+        $page = 80;
 
         do {
             $r = CampaignMonitor::lists($list_id)->get_active_subscribers(date('Y-m-d', strtotime('-5 years')), $page, 500, 'email', 'asc');
