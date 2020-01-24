@@ -77,10 +77,10 @@ class EngagementController extends Controller
         $list_id = $list->ListID;
       }
     }
-    $page = 1;
+    $page = 80;
 
     do {
-      $r = CampaignMonitor::lists($list_id)->get_active_subscribers(date('Y-m-d', strtotime('-5 years')), $page, 10, 'email', 'asc');
+      $r = CampaignMonitor::lists($list_id)->get_active_subscribers(date('Y-m-d', strtotime('-5 years')), $page, 500, 'email', 'asc');
 
       foreach($r->response->Results as $user) {
         $history = CampaignMonitor::subscribers($list_id)->get_history($user->EmailAddress);
