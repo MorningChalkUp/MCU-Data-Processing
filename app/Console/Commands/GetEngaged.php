@@ -15,7 +15,7 @@ class GetEngaged extends Command
      *
      * @var string
      */
-    protected $signature = 'engaged:get {--start=}';
+    protected $signature = 'engaged:get';
 
     /**
      * The console command description.
@@ -47,13 +47,9 @@ class GetEngaged extends Command
 
         $emails = array();
 
-        if($this->option('start') > 0) {
-            $page = (int)$this->option('start');
-        } else {
-            $page = 1;
-            Storage::delete('engagement.csv');
-            Storage::disk('local')->append('engagement.csv', 'email,active date');
-        }
+        $page = 1;
+        Storage::delete('engagement.csv');
+        Storage::disk('local')->append('engagement.csv', 'email,active date');
 
         foreach ($return->response as $list) {
             if ($list->Name == 'The Morning Chalk Up') {
