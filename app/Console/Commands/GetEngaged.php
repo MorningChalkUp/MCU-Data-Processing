@@ -15,7 +15,7 @@ class GetEngaged extends Command
      *
      * @var string
      */
-    protected $signature = 'engaged:get';
+    protected $signature = 'engaged:get {--start=}';
 
     /**
      * The console command description.
@@ -42,22 +42,24 @@ class GetEngaged extends Command
     public function handle()
     {
         $start = Carbon::now();
-        $this->info('Start Time: ' . $start);
 
         $return = CampaignMonitor::clients(\Config::get('campaignmonitor.client_id'))->get_lists();
 
         $emails = array();
 
-        // Storage::delete('engagement.csv');
-        // Storage::disk('local')->append('engagement.csv', 'email,active date');
-
+        if($this->option('start') > 0) {
+            $page = (int)$this->option('start');
+        } else {
+            $page = 1;
+            Storage::delete('engagement.csv');
+            Storage::disk('local')->append('engagement.csv', 'email,active date');
+        }
 
         foreach ($return->response as $list) {
             if ($list->Name == 'The Morning Chalk Up') {
                 $list_id = $list->ListID;
             }
         }
-        $page = 80;
 
         do {
             $r = CampaignMonitor::lists($list_id)->get_active_subscribers(date('Y-m-d', strtotime('-5 years')), $page, 500, 'email', 'asc');
@@ -74,12 +76,14 @@ class GetEngaged extends Command
                 }
                 Storage::disk('local')->append('engagement.csv', $user->EmailAddress . ',' . $emails[$user->EmailAddress]);
 
-                // sleep(10);
+                sleep(30);
             }
             ++$page;
 
         } while($page <= $r->response->NumberOfPages);
         $end = Carbon::now();
+
+        $this->info('Start Time: ' . $start);
         $this->info('End Time: ' . $end);
     }
 }
